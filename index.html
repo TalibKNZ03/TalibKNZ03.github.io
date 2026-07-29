@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>عبدالمطلب كنزي — بورتفوليو</title>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:       #0d0d0f;
+      --surface:  #141417;
+      --border:   #222228;
+      --accent:   #7b5cfa;
+      --accent2:  #c084fc;
+      --text:     #e8e8f0;
+      --muted:    #666680;
+      --mono:     'Space Mono', monospace;
+      --sans:     'IBM Plex Sans Arabic', sans-serif;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--sans);
+      font-size: 16px;
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+
+    /* ─── NAV ─── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 1.2rem 6vw;
+      background: rgba(13,13,15,0.85);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-logo {
+      font-family: var(--mono);
+      font-size: 1.1rem;
+      color: var(--accent);
+      letter-spacing: 0.05em;
+    }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 0.9rem;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--text); }
+
+    /* ─── HERO ─── */
+    #hero {
+      min-height: 100vh;
+      display: flex; align-items: center;
+      padding: 8rem 6vw 4rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero-glow {
+      position: absolute;
+      width: 600px; height: 600px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(123,92,250,0.18) 0%, transparent 70%);
+      top: -100px; right: -100px;
+      pointer-events: none;
+    }
+    .hero-content { max-width: 700px; }
+    .hero-eyebrow {
+      font-family: var(--mono);
+      font-size: 0.78rem;
+      color: var(--accent);
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      margin-bottom: 1.4rem;
+    }
+    h1 {
+      font-size: clamp(2.6rem, 6vw, 4.5rem);
+      font-weight: 700;
+      line-height: 1.1;
+      margin-bottom: 1.5rem;
+    }
+    h1 span {
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .hero-desc {
+      color: var(--muted);
+      font-size: 1.1rem;
+      max-width: 500px;
+      margin-bottom: 2.5rem;
+    }
+    .btn {
+      display: inline-block;
+      padding: 0.85rem 2rem;
+      border-radius: 8px;
+      font-family: var(--sans);
+      font-size: 0.95rem;
+      font-weight: 600;
+      text-decoration: none;
+      cursor: pointer;
+      border: none;
+      transition: transform 0.15s, box-shadow 0.2s;
+    }
+    .btn-primary {
+      background: var(--accent);
+      color: #fff;
+    }
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 30px rgba(123,92,250,0.4);
+    }
+    .btn-ghost {
+      background: transparent;
+      color: var(--text);
+      border: 1px solid var(--border);
+      margin-right: 1rem;
+    }
+    .btn-ghost:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    /* ─── SECTIONS ─── */
+    section { padding: 6rem 6vw; }
+    .section-label {
+      font-family: var(--mono);
+      font-size: 0.75rem;
+      color: var(--accent);
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      margin-bottom: 0.6rem;
+    }
+    h2 {
+      font-size: clamp(1.8rem, 4vw, 2.6rem);
+      font-weight: 700;
+      margin-bottom: 1rem;
+    }
+    .section-line {
+      width: 48px; height: 3px;
+      background: var(--accent);
+      border-radius: 2px;
+      margin-bottom: 3rem;
+    }
+
+    /* ─── ABOUT ─── */
+    #about .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: center;
+    }
+    .about-text p { color: var(--muted); margin-bottom: 1rem; }
+    .about-avatar {
+      width: 100%; aspect-ratio: 1;
+      max-width: 340px;
+      border-radius: 16px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 6rem;
+      margin: 0 auto;
+      position: relative;
+      overflow: hidden;
+    }
+    .about-avatar img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      position: relative;
+      z-index: 1;
+    }
+    .about-avatar::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: linear-gradient(135deg, rgba(123,92,250,0.12), transparent);
+    }
+
+    /* ─── SKILLS ─── */
+    #skills { background: var(--surface); }
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 1.2rem;
+    }
+    .skill-card {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.4rem 1.6rem;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+    .skill-card:hover {
+      border-color: var(--accent);
+      transform: translateY(-3px);
+    }
+    .skill-icon { font-size: 1.6rem; margin-bottom: 0.6rem; }
+    .skill-name { font-weight: 600; margin-bottom: 0.3rem; }
+    .skill-level { font-size: 0.8rem; color: var(--muted); }
+    .skill-bar {
+      height: 3px;
+      background: var(--border);
+      border-radius: 2px;
+      margin-top: 0.8rem;
+      overflow: hidden;
+    }
+    .skill-bar-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+      border-radius: 2px;
+      transition: width 1s ease;
+    }
+
+    /* ─── PROJECTS ─── */
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 1.5rem;
+    }
+    .project-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 1.8rem;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+    .project-card:hover {
+      border-color: var(--accent);
+      transform: translateY(-4px);
+    }
+    .project-tag {
+      display: inline-block;
+      background: rgba(123,92,250,0.12);
+      color: var(--accent);
+      font-size: 0.72rem;
+      font-family: var(--mono);
+      padding: 0.2rem 0.6rem;
+      border-radius: 4px;
+      margin-bottom: 1rem;
+    }
+    .project-title { font-size: 1.1rem; font-weight: 700; margin-bottom: 0.6rem; }
+    .project-desc { color: var(--muted); font-size: 0.9rem; }
+
+    /* ─── CONTACT ─── */
+    #contact { background: var(--surface); }
+    .contact-wrap {
+      display: grid;
+      grid-template-columns: 1fr 1.4fr;
+      gap: 4rem;
+      align-items: start;
+    }
+    .contact-info h3 { font-size: 1.3rem; margin-bottom: 0.8rem; }
+    .contact-info p { color: var(--muted); margin-bottom: 2rem; font-size: 0.95rem; }
+    .contact-item {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      margin-bottom: 1rem;
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+    .contact-item .icon { font-size: 1.1rem; }
+    .contact-form { display: flex; flex-direction: column; gap: 1rem; }
+    .form-group { display: flex; flex-direction: column; gap: 0.4rem; }
+    label { font-size: 0.85rem; color: var(--muted); }
+    input, textarea {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 0.8rem 1rem;
+      color: var(--text);
+      font-family: var(--sans);
+      font-size: 0.95rem;
+      transition: border-color 0.2s;
+      outline: none;
+    }
+    input:focus, textarea:focus { border-color: var(--accent); }
+    textarea { min-height: 140px; resize: vertical; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    #send-btn { align-self: flex-start; }
+    .success-msg {
+      display: none;
+      background: rgba(123,92,250,0.12);
+      border: 1px solid var(--accent);
+      border-radius: 8px;
+      padding: 1rem;
+      color: var(--accent2);
+      font-size: 0.9rem;
+      text-align: center;
+    }
+
+    /* ─── FOOTER ─── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 2rem 6vw;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: var(--muted);
+      font-size: 0.82rem;
+    }
+    .footer-logo { font-family: var(--mono); color: var(--accent); }
+
+    /* ─── ANIMATIONS ─── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .fade-up { animation: fadeUp 0.7s ease both; }
+    .delay-1 { animation-delay: 0.15s; }
+    .delay-2 { animation-delay: 0.3s; }
+    .delay-3 { animation-delay: 0.45s; }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 768px) {
+      nav { padding: 1rem 5vw; }
+      .nav-links { gap: 1.2rem; }
+      #about .about-grid { grid-template-columns: 1fr; }
+      .about-avatar { max-width: 220px; }
+      .contact-wrap { grid-template-columns: 1fr; }
+      .form-row { grid-template-columns: 1fr; }
+      footer { flex-direction: column; gap: 0.5rem; text-align: center; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .fade-up { animation: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <div class="nav-logo">&lt; portfolio /&gt;</div>
+    <ul class="nav-links">
+      <li><a href="#about">من أنا</a></li>
+      <li><a href="#skills">مهاراتي</a></li>
+      <li><a href="#projects">مشاريعي</a></li>
+      <li><a href="#contact">تواصل</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <section id="hero">
+    <div class="hero-glow"></div>
+    <div class="hero-content">
+      <p class="hero-eyebrow fade-up">مرحباً، أنا</p>
+      <h1 class="fade-up delay-1">عبدالمطلب كنزي<br /><span>تقني متخصص في الأتمتة والقياس الصناعي</span></h1>
+      <p class="hero-desc fade-up delay-2">حامل دبلوم تقني متخصص في الأتمتة والقياس الصناعي من ISTA (مكتب التكوين المهني)، بخبرة ميدانية في مجال الاستشعار والمشغلات والمتحكمات الصناعية PLC، وشغف بمشاريع إبداعية رقمية.</p>
+      <div class="fade-up delay-3">
+        <a href="#contact" class="btn btn-ghost">تواصل معي</a>
+        <a href="#projects" class="btn btn-primary">شوف أعمالي</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about">
+    <div class="about-grid">
+      <div>
+        <p class="section-label">التعريف</p>
+        <h2>من أنا؟</h2>
+        <div class="section-line"></div>
+        <div class="about-text">
+          <p>حاصل على دبلوم التقني المتخصص في الأتمتة والقياس الصناعي من معهد ISTA (مكتب التكوين المهني وإنعاش الشغل) ببني ملال. قضيت تدريبا ميدانيا بمجمع OCP في مصلحة التنظيم (service de régulation)، حيث اشتغلت مباشرة على أجهزة الاستشعار والمشغلات والمتحكمات المنطقية القابلة للبرمجة PLC.</p>
+          <p>إلى جانب المسار التقني، اشتغلت كمخرج إبداعي (Creative Director) لمسلسل رسوم متحركة تعليمي باللغة العربية موجه للأطفال، وطورت مواقع ويب باستعمال HTML وCSS وJavaScript. دابا فبحث نشيط عن فرصة شغل أو تكوين تكميلي يسمح ليا نطور المهارات ديالي أكثر.</p>
+        </div>
+      </div>
+      <div class="about-avatar"><img src="profile.jpg" alt="عبدالمطلب كنزي" /></div>
+    </div>
+  </section>
+
+  <!-- SKILLS -->
+  <section id="skills">
+    <p class="section-label">الكفاءات</p>
+    <h2>مهاراتي</h2>
+    <div class="section-line"></div>
+    <div class="skills-grid">
+      <div class="skill-card">
+        <div class="skill-icon">⚙️</div>
+        <div class="skill-name">برمجة PLC والأتمتة الصناعية</div>
+        <div class="skill-level">متقدم</div>
+        <div class="skill-bar"><div class="skill-bar-fill" style="width:85%"></div></div>
+      </div>
+      <div class="skill-card">
+        <div class="skill-icon">📡</div>
+        <div class="skill-name">أجهزة الاستشعار والمشغلات</div>
+        <div class="skill-level">متقدم</div>
+        <div class="skill-bar"><div class="skill-bar-fill" style="width:85%"></div></div>
+      </div>
+      <div class="skill-card">
+        <div class="skill-icon">🔧</div>
+        <div class="skill-name">الأنظمة الهيدروليكية والهوائية</div>
+        <div class="skill-level">متوسط</div>
+        <div class="skill-bar"><div class="skill-bar-fill" style="width:70%"></div></div>
+      </div>
+      <div class="skill-card">
+        <div class="skill-icon">💻</div>
+        <div class="skill-name">تطوير الويب (HTML/CSS/JS)</div>
+        <div class="skill-level">متوسط</div>
+        <div class="skill-bar"><div class="skill-bar-fill" style="width:65%"></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROJECTS -->
+  <section id="projects">
+    <p class="section-label">الأعمال</p>
+    <h2>مشاريعي</h2>
+    <div class="section-line"></div>
+    <div class="projects-grid">
+      <div class="project-card">
+        <span class="project-tag">تدريب ميداني</span>
+        <div class="project-title">مصلحة التنظيم — مجمع OCP</div>
+        <p class="project-desc">تدريب ميداني بمصلحة régulation، اشتغلت خلاله على أجهزة استشعار درجة الحرارة والضغط، المشغلات الصناعية، والمتحكمات المنطقية القابلة للبرمجة PLC.</p>
+      </div>
+      <div class="project-card">
+        <span class="project-tag">إخراج إبداعي</span>
+        <div class="project-title">MOMO TV</div>
+        <p class="project-desc">مخرج إبداعي لمسلسل رسوم متحركة تعليمي باللغة العربية موجه للأطفال (3-7 سنوات)، شمل بناء القصص المصورة (storyboard) وتطوير الحلقات.</p>
+      </div>
+      <div class="project-card">
+        <span class="project-tag">تطوير ويب</span>
+        <div class="project-title">مواقع ويب عربية</div>
+        <p class="project-desc">تصميم وبرمجة موقعين كاملين (بورتفوليو شخصي ومدونة رياضية) باستعمال HTML وCSS وJavaScript من الصفر.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact">
+    <p class="section-label">التواصل</p>
+    <h2>ابعث لي رسالة</h2>
+    <div class="section-line"></div>
+    <div class="contact-wrap">
+      <div class="contact-info">
+        <h3>خلنا نتحدث!</h3>
+        <p>سواء كان عندك مشروع، سؤال، أو بس تبغ تسلم — أنا هنا.</p>
+        <div class="contact-item"><span class="icon">📧</span> abdelmotalibkenzi@gmail.com</div>
+        <div class="contact-item"><span class="icon">📍</span> بني ملال-خنيفرة، المغرب</div>
+      </div>
+      <div>
+        <div class="contact-form" id="contactForm">
+          <div class="form-row">
+            <div class="form-group">
+              <label for="name">الاسم</label>
+              <input type="text" id="name" placeholder="اسمك" />
+            </div>
+            <div class="form-group">
+              <label for="email">البريد الإلكتروني</label>
+              <input type="email" id="email" placeholder="بريدك@example.com" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="subject">الموضوع</label>
+            <input type="text" id="subject" placeholder="عنوان الرسالة" />
+          </div>
+          <div class="form-group">
+            <label for="message">الرسالة</label>
+            <textarea id="message" placeholder="اكتب رسالتك هنا..."></textarea>
+          </div>
+          <button class="btn btn-primary" id="send-btn" onclick="sendMessage()">إرسال الرسالة ✦</button>
+          <div class="success-msg" id="successMsg">✅ تم الإرسال! سأرد عليك في أقرب وقت.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-logo">&lt; portfolio /&gt;</div>
+    <div>صُمّم بـ ♥ — جميع الحقوق محفوظة © 2025</div>
+  </footer>
+
+  <script>
+    function sendMessage() {
+      const name = document.getElementById('name').value.trim();
+      const email = document.getElementById('email').value.trim();
+      const message = document.getElementById('message').value.trim();
+      if (!name || !email || !message) {
+        alert('يرجى تعبئة الاسم والبريد والرسالة على الأقل.');
+        return;
+      }
+      document.getElementById('send-btn').textContent = 'جارٍ الإرسال...';
+      setTimeout(() => {
+        document.getElementById('send-btn').style.display = 'none';
+        document.getElementById('successMsg').style.display = 'block';
+      }, 800);
+    }
+
+    // Smooth skill bar animation on scroll
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.querySelectorAll('.skill-bar-fill').forEach(bar => {
+            bar.style.width = bar.style.width;
+          });
+        }
+      });
+    }, { threshold: 0.3 });
+    const skillsSection = document.getElementById('skills');
+    if (skillsSection) observer.observe(skillsSection);
+  </script>
+</body>
+</html>
