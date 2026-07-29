@@ -41,19 +41,85 @@
       border-bottom: 1px solid var(--border);
     }
     .nav-logo {
-      font-family: var(--mono);
-      font-size: 1.1rem;
-      color: var(--accent);
-      letter-spacing: 0.05em;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      font-family: var(--sans);
+      font-size: 1.4rem;
+      font-weight: 700;
+      letter-spacing: 0.01em;
     }
+    .nav-logo .logo-text {
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .logo-mark { flex-shrink: 0; display: block; }
     .nav-links { display: flex; gap: 2rem; list-style: none; }
     .nav-links a {
+      position: relative;
       color: var(--muted);
       text-decoration: none;
       font-size: 0.9rem;
       transition: color 0.2s;
+      padding-bottom: 4px;
+    }
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      right: 0; bottom: 0;
+      width: 0; height: 2px;
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+      border-radius: 2px;
+      transition: width 0.25s ease;
     }
     .nav-links a:hover { color: var(--text); }
+    .nav-links a:hover::after,
+    .nav-links a.active::after { width: 100%; }
+    .nav-links a.active { color: var(--text); }
+
+    /* ─── LANG TOGGLE ─── */
+    .nav-actions { display: flex; align-items: center; }
+    .lang-toggle {
+      font-family: var(--mono);
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: var(--text);
+      background: transparent;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 0.4rem 0.7rem;
+      cursor: pointer;
+      letter-spacing: 0.05em;
+      transition: border-color 0.2s, color 0.2s;
+    }
+    .lang-toggle:hover { border-color: var(--accent); color: var(--accent); }
+
+    /* ─── HAMBURGER (mobile menu trigger) ─── */
+    .nav-toggle {
+      display: none;
+      flex-direction: column;
+      justify-content: center;
+      gap: 5px;
+      width: 34px; height: 34px;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      padding: 0;
+      z-index: 200;
+      margin-inline-start: 0.8rem;
+    }
+    .nav-toggle span {
+      display: block;
+      width: 100%;
+      height: 2px;
+      background: var(--text);
+      border-radius: 2px;
+      transition: transform 0.3s ease, opacity 0.3s ease;
+    }
+    .nav-toggle.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .nav-toggle.open span:nth-child(2) { opacity: 0; }
+    .nav-toggle.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
 
     /* ─── HERO ─── */
     #hero {
@@ -161,25 +227,48 @@
     .about-avatar {
       width: 100%; aspect-ratio: 1;
       max-width: 340px;
-      border-radius: 16px;
-      background: var(--surface);
-      border: 1px solid var(--border);
+      border-radius: 50%;
+      padding: 5px;
+      background: linear-gradient(135deg, var(--accent), var(--accent2), var(--accent));
+      background-size: 220% 220%;
       display: flex; align-items: center; justify-content: center;
       font-size: 6rem;
       margin: 0 auto;
       position: relative;
-      overflow: hidden;
+      overflow: visible;
+      animation: avatarShimmer 5s ease infinite, avatarGlow 3s ease-in-out infinite;
     }
     .about-avatar img {
       width: 100%; height: 100%;
       object-fit: cover;
+      border-radius: 50%;
       position: relative;
       z-index: 1;
+      background: var(--surface);
     }
     .about-avatar::before {
       content: '';
-      position: absolute; inset: 0;
+      position: absolute; inset: 5px;
+      border-radius: 50%;
       background: linear-gradient(135deg, rgba(123,92,250,0.12), transparent);
+      pointer-events: none;
+    }
+
+    @keyframes avatarShimmer {
+      0%   { background-position: 0% 50%; }
+      50%  { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+    @keyframes avatarGlow {
+      0%, 100% {
+        box-shadow: 0 0 25px rgba(123,92,250,0.35), 0 0 50px rgba(192,132,252,0.15);
+      }
+      50% {
+        box-shadow: 0 0 40px rgba(123,92,250,0.6), 0 0 85px rgba(192,132,252,0.35);
+      }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .about-avatar { animation: none; box-shadow: 0 0 30px rgba(123,92,250,0.4); }
     }
 
     /* ─── SKILLS ─── */
@@ -265,7 +354,23 @@
       color: var(--muted);
       font-size: 0.9rem;
     }
-    .contact-item .icon { font-size: 1.1rem; }
+    .contact-item .icon {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 34px; height: 34px;
+      flex-shrink: 0;
+      border-radius: 50%;
+      background: rgba(123,92,250,0.12);
+      color: var(--accent);
+    }
+    .contact-item .icon svg { width: 17px; height: 17px; }
+    .contact-link {
+      color: var(--muted);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .contact-link:hover { color: var(--accent); }
     .contact-form { display: flex; flex-direction: column; gap: 1rem; }
     .form-group { display: flex; flex-direction: column; gap: 0.4rem; }
     label { font-size: 0.85rem; color: var(--muted); }
@@ -305,7 +410,15 @@
       color: var(--muted);
       font-size: 0.82rem;
     }
-    .footer-logo { font-family: var(--mono); color: var(--accent); }
+    .footer-logo {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-family: var(--sans);
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--accent);
+    }
 
     /* ─── ANIMATIONS ─── */
     @keyframes fadeUp {
@@ -320,7 +433,35 @@
     /* ─── RESPONSIVE ─── */
     @media (max-width: 768px) {
       nav { padding: 1rem 5vw; }
-      .nav-links { gap: 1.2rem; }
+
+      .nav-toggle { display: flex; }
+
+      .nav-links {
+        position: fixed;
+        top: 0; right: 0;
+        height: 100vh;
+        width: min(70vw, 280px);
+        flex-direction: column;
+        justify-content: center;
+        gap: 2.2rem;
+        background: rgba(13,13,15,0.97);
+        backdrop-filter: blur(16px);
+        border-left: 1px solid var(--border);
+        transform: translateX(100%);
+        transition: transform 0.35s ease;
+        padding: 2rem;
+      }
+      .nav-links.open { transform: translateX(0); }
+      .nav-links a { font-size: 1.1rem; }
+
+      .nav-overlay {
+        display: none;
+        position: fixed; inset: 0;
+        background: rgba(0,0,0,0.5);
+        z-index: 99;
+      }
+      .nav-overlay.open { display: block; }
+
       #about .about-grid { grid-template-columns: 1fr; }
       .about-avatar { max-width: 220px; }
       .contact-wrap { grid-template-columns: 1fr; }
@@ -328,8 +469,31 @@
       footer { flex-direction: column; gap: 0.5rem; text-align: center; }
     }
 
+    /* ─── SCROLL REVEAL ─── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .reveal.in-view { opacity: 1; transform: translateY(0); }
+    .reveal.rdelay-1 { transition-delay: 0.15s; }
+    .reveal.rdelay-2 { transition-delay: 0.3s; }
+    .reveal-stagger { opacity: 1; transform: none; transition: none; }
+    .reveal-stagger .stagger-item { opacity: 0; }
+    .reveal-stagger.in-view .stagger-item {
+      animation: fadeUp 0.6s ease both;
+    }
+    .stagger-item:nth-child(1) { animation-delay: 0.05s; }
+    .stagger-item:nth-child(2) { animation-delay: 0.15s; }
+    .stagger-item:nth-child(3) { animation-delay: 0.25s; }
+    .stagger-item:nth-child(4) { animation-delay: 0.35s; }
+    .stagger-item:nth-child(5) { animation-delay: 0.45s; }
+    .stagger-item:nth-child(6) { animation-delay: 0.55s; }
+
     @media (prefers-reduced-motion: reduce) {
       .fade-up { animation: none; }
+      .reveal { opacity: 1; transform: none; transition: none; }
+      .reveal-stagger.in-view .stagger-item { animation: none; opacity: 1; }
     }
   </style>
 </head>
@@ -337,25 +501,44 @@
 
   <!-- NAV -->
   <nav>
-    <div class="nav-logo">&lt; portfolio /&gt;</div>
-    <ul class="nav-links">
-      <li><a href="#about">من أنا</a></li>
-      <li><a href="#skills">مهاراتي</a></li>
-      <li><a href="#projects">مشاريعي</a></li>
-      <li><a href="#contact">تواصل</a></li>
+    <div class="nav-logo">
+      <svg class="logo-mark" width="38" height="38" viewBox="0 0 38 38" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="logoGrad" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" style="stop-color:var(--accent)" />
+            <stop offset="100%" style="stop-color:var(--accent2)" />
+          </linearGradient>
+        </defs>
+        <rect x="1.5" y="1.5" width="35" height="35" rx="11" fill="none" stroke="url(#logoGrad)" stroke-width="1.6"/>
+        <text x="50%" y="53%" text-anchor="middle" dominant-baseline="middle" font-family="'Space Mono', monospace" font-weight="700" font-size="14" letter-spacing="0.5" fill="url(#logoGrad)">AK</text>
+      </svg>
+      <span class="logo-text" data-en="My Blog">مدونتي</span>
+    </div>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#about" data-en="About">من أنا</a></li>
+      <li><a href="#skills" data-en="Skills">مهاراتي</a></li>
+      <li><a href="#projects" data-en="Projects">مشاريعي</a></li>
+      <li><a href="#contact" data-en="Contact">تواصل</a></li>
     </ul>
+    <div class="nav-actions">
+      <button class="lang-toggle" id="langToggle" type="button">EN</button>
+      <button class="nav-toggle" id="navToggle" aria-label="فتح القائمة" data-en-aria="Open menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
   </nav>
+  <div class="nav-overlay" id="navOverlay"></div>
 
   <!-- HERO -->
   <section id="hero">
     <div class="hero-glow"></div>
     <div class="hero-content">
-      <p class="hero-eyebrow fade-up">مرحباً، أنا</p>
-      <h1 class="fade-up delay-1">عبدالمطلب كنزي<br /><span>تقني متخصص في الأتمتة والقياس الصناعي</span></h1>
-      <p class="hero-desc fade-up delay-2">حامل دبلوم تقني متخصص في الأتمتة والقياس الصناعي من ISTA (مكتب التكوين المهني)، بخبرة ميدانية في مجال الاستشعار والمشغلات والمتحكمات الصناعية PLC، وشغف بمشاريع إبداعية رقمية.</p>
+      <p class="hero-eyebrow fade-up" data-en="Hello, I'm">مرحباً، أنا</p>
+      <h1 class="fade-up delay-1"><span data-en="Abdelmottalib Kenzi">عبدالمطلب كنزي</span><br /><span data-en="Industrial Automation &amp; Instrumentation Technician">تقني متخصص في الأتمتة والقياس الصناعي</span></h1>
+      <p class="hero-desc fade-up delay-2" data-en="Holder of a specialized technical diploma in Industrial Automation and Instrumentation from ISTA (Vocational Training Office), with hands-on experience in sensors, actuators, and industrial PLCs, and a passion for creative digital projects.">حامل دبلوم تقني متخصص في الأتمتة والقياس الصناعي من ISTA (مكتب التكوين المهني)، بخبرة ميدانية في مجال الاستشعار والمشغلات والمتحكمات الصناعية PLC، وشغف بمشاريع إبداعية رقمية.</p>
       <div class="fade-up delay-3">
-        <a href="#contact" class="btn btn-ghost">تواصل معي</a>
-        <a href="#projects" class="btn btn-primary">شوف أعمالي</a>
+        <a href="#contact" class="btn btn-ghost" data-en="Get in Touch">تواصل معي</a>
+        <a href="#projects" class="btn btn-primary" data-en="View My Work">شوف أعمالي</a>
       </div>
     </div>
   </section>
@@ -363,47 +546,49 @@
   <!-- ABOUT -->
   <section id="about">
     <div class="about-grid">
-      <div>
-        <p class="section-label">التعريف</p>
-        <h2>من أنا؟</h2>
+      <div class="reveal">
+        <p class="section-label" data-en="About">التعريف</p>
+        <h2 data-en="About Me">من أنا؟</h2>
         <div class="section-line"></div>
         <div class="about-text">
-          <p>حاصل على دبلوم التقني المتخصص في الأتمتة والقياس الصناعي من معهد ISTA (مكتب التكوين المهني وإنعاش الشغل) ببني ملال. قضيت تدريبا ميدانيا بمجمع OCP في مصلحة التنظيم (service de régulation)، حيث اشتغلت مباشرة على أجهزة الاستشعار والمشغلات والمتحكمات المنطقية القابلة للبرمجة PLC.</p>
-          <p>إلى جانب المسار التقني، اشتغلت كمخرج إبداعي (Creative Director) لمسلسل رسوم متحركة تعليمي باللغة العربية موجه للأطفال، وطورت مواقع ويب باستعمال HTML وCSS وJavaScript. دابا فبحث نشيط عن فرصة شغل أو تكوين تكميلي يسمح ليا نطور المهارات ديالي أكثر.</p>
+          <p data-en="Holder of a specialized technical diploma in Industrial Automation and Instrumentation from ISTA (Vocational Training and Employment Promotion Office) in Béni Mellal. Completed a field internship at OCP Group in the Regulation Department (service de régulation), working directly with sensors, actuators, and programmable logic controllers (PLCs).">حاصل على دبلوم التقني المتخصص في الأتمتة والقياس الصناعي من معهد ISTA (مكتب التكوين المهني وإنعاش الشغل) ببني ملال. قضيت تدريبا ميدانيا بمجمع OCP في مصلحة التنظيم (service de régulation)، حيث اشتغلت مباشرة على أجهزة الاستشعار والمشغلات والمتحكمات المنطقية القابلة للبرمجة PLC.</p>
+          <p data-en="Alongside the technical path, I worked as Creative Director for an educational Arabic-language animated series for children, and built websites using HTML, CSS, and JavaScript. I am currently actively seeking a job opportunity or complementary training to further develop my skills.">إلى جانب المسار التقني، اشتغلت كمخرج إبداعي (Creative Director) لمسلسل رسوم متحركة تعليمي باللغة العربية موجه للأطفال، وطورت مواقع ويب باستعمال HTML وCSS وJavaScript. دابا فبحث نشيط عن فرصة شغل أو تكوين تكميلي يسمح ليا نطور المهارات ديالي أكثر.</p>
         </div>
       </div>
-      <div class="about-avatar"><img src="profile.jpg" alt="عبدالمطلب كنزي" /></div>
+      <div class="about-avatar reveal rdelay-1"><img src="profile.jpg" alt="عبدالمطلب كنزي" /></div>
     </div>
   </section>
 
   <!-- SKILLS -->
   <section id="skills">
-    <p class="section-label">الكفاءات</p>
-    <h2>مهاراتي</h2>
-    <div class="section-line"></div>
-    <div class="skills-grid">
-      <div class="skill-card">
+    <div class="reveal">
+      <p class="section-label" data-en="Skills">الكفاءات</p>
+      <h2 data-en="My Skills">مهاراتي</h2>
+      <div class="section-line"></div>
+    </div>
+    <div class="skills-grid reveal reveal-stagger">
+      <div class="skill-card stagger-item">
         <div class="skill-icon">⚙️</div>
-        <div class="skill-name">برمجة PLC والأتمتة الصناعية</div>
-        <div class="skill-level">متقدم</div>
+        <div class="skill-name" data-en="PLC Programming &amp; Industrial Automation">برمجة PLC والأتمتة الصناعية</div>
+        <div class="skill-level" data-en="Advanced">متقدم</div>
         <div class="skill-bar"><div class="skill-bar-fill" style="width:85%"></div></div>
       </div>
-      <div class="skill-card">
+      <div class="skill-card stagger-item">
         <div class="skill-icon">📡</div>
-        <div class="skill-name">أجهزة الاستشعار والمشغلات</div>
-        <div class="skill-level">متقدم</div>
+        <div class="skill-name" data-en="Sensors &amp; Actuators">أجهزة الاستشعار والمشغلات</div>
+        <div class="skill-level" data-en="Advanced">متقدم</div>
         <div class="skill-bar"><div class="skill-bar-fill" style="width:85%"></div></div>
       </div>
-      <div class="skill-card">
+      <div class="skill-card stagger-item">
         <div class="skill-icon">🔧</div>
-        <div class="skill-name">الأنظمة الهيدروليكية والهوائية</div>
-        <div class="skill-level">متوسط</div>
+        <div class="skill-name" data-en="Hydraulic &amp; Pneumatic Systems">الأنظمة الهيدروليكية والهوائية</div>
+        <div class="skill-level" data-en="Intermediate">متوسط</div>
         <div class="skill-bar"><div class="skill-bar-fill" style="width:70%"></div></div>
       </div>
-      <div class="skill-card">
+      <div class="skill-card stagger-item">
         <div class="skill-icon">💻</div>
-        <div class="skill-name">تطوير الويب (HTML/CSS/JS)</div>
-        <div class="skill-level">متوسط</div>
+        <div class="skill-name" data-en="Web Development (HTML/CSS/JS)">تطوير الويب (HTML/CSS/JS)</div>
+        <div class="skill-level" data-en="Intermediate">متوسط</div>
         <div class="skill-bar"><div class="skill-bar-fill" style="width:65%"></div></div>
       </div>
     </div>
@@ -411,62 +596,83 @@
 
   <!-- PROJECTS -->
   <section id="projects">
-    <p class="section-label">الأعمال</p>
-    <h2>مشاريعي</h2>
-    <div class="section-line"></div>
-    <div class="projects-grid">
-      <div class="project-card">
-        <span class="project-tag">تدريب ميداني</span>
-        <div class="project-title">مصلحة التنظيم — مجمع OCP</div>
-        <p class="project-desc">تدريب ميداني بمصلحة régulation، اشتغلت خلاله على أجهزة استشعار درجة الحرارة والضغط، المشغلات الصناعية، والمتحكمات المنطقية القابلة للبرمجة PLC.</p>
+    <div class="reveal">
+      <p class="section-label" data-en="Work">الأعمال</p>
+      <h2 data-en="My Projects">مشاريعي</h2>
+      <div class="section-line"></div>
+    </div>
+    <div class="projects-grid reveal reveal-stagger">
+      <div class="project-card stagger-item">
+        <span class="project-tag" data-en="Internship">تدريب ميداني</span>
+        <div class="project-title" data-en="Regulation Department — OCP Group">مصلحة التنظيم — مجمع OCP</div>
+        <p class="project-desc" data-en="Field internship in the régulation department, working with temperature and pressure sensors, industrial actuators, and programmable logic controllers (PLCs).">تدريب ميداني بمصلحة régulation، اشتغلت خلاله على أجهزة استشعار درجة الحرارة والضغط، المشغلات الصناعية، والمتحكمات المنطقية القابلة للبرمجة PLC.</p>
       </div>
-      <div class="project-card">
-        <span class="project-tag">إخراج إبداعي</span>
+      <div class="project-card stagger-item">
+        <span class="project-tag" data-en="Creative Direction">إخراج إبداعي</span>
         <div class="project-title">MOMO TV</div>
-        <p class="project-desc">مخرج إبداعي لمسلسل رسوم متحركة تعليمي باللغة العربية موجه للأطفال (3-7 سنوات)، شمل بناء القصص المصورة (storyboard) وتطوير الحلقات.</p>
+        <p class="project-desc" data-en="Creative Director for an educational Arabic-language animated series for children (ages 3-7), including storyboard building and episode development.">مخرج إبداعي لمسلسل رسوم متحركة تعليمي باللغة العربية موجه للأطفال (3-7 سنوات)، شمل بناء القصص المصورة (storyboard) وتطوير الحلقات.</p>
       </div>
-      <div class="project-card">
-        <span class="project-tag">تطوير ويب</span>
-        <div class="project-title">مواقع ويب عربية</div>
-        <p class="project-desc">تصميم وبرمجة موقعين كاملين (بورتفوليو شخصي ومدونة رياضية) باستعمال HTML وCSS وJavaScript من الصفر.</p>
+      <div class="project-card stagger-item">
+        <span class="project-tag" data-en="Web Development">تطوير ويب</span>
+        <div class="project-title" data-en="Arabic Websites">مواقع ويب عربية</div>
+        <p class="project-desc" data-en="Designed and coded two complete websites (a personal portfolio and a sports blog) using HTML, CSS, and JavaScript from scratch.">تصميم وبرمجة موقعين كاملين (بورتفوليو شخصي ومدونة رياضية) باستعمال HTML وCSS وJavaScript من الصفر.</p>
       </div>
     </div>
   </section>
 
   <!-- CONTACT -->
   <section id="contact">
-    <p class="section-label">التواصل</p>
-    <h2>ابعث لي رسالة</h2>
-    <div class="section-line"></div>
-    <div class="contact-wrap">
+    <div class="reveal">
+      <p class="section-label" data-en="Contact">التواصل</p>
+      <h2 data-en="Send Me a Message">ابعث لي رسالة</h2>
+      <div class="section-line"></div>
+    </div>
+    <div class="contact-wrap reveal">
       <div class="contact-info">
-        <h3>خلنا نتحدث!</h3>
-        <p>سواء كان عندك مشروع، سؤال، أو بس تبغ تسلم — أنا هنا.</p>
-        <div class="contact-item"><span class="icon">📧</span> abdelmotalibkenzi@gmail.com</div>
-        <div class="contact-item"><span class="icon">📍</span> بني ملال-خنيفرة، المغرب</div>
+        <p data-en="Whether you have a project, a question, or just want to say hi — I'm here.">سواء كان عندك مشروع، سؤال، أو بس تبغ تسلم — أنا هنا.</p>
+        <div class="contact-item">
+          <span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"></rect><path d="M2 6l10 7 10-7"></path></svg></span>
+          <a href="mailto:abdelmotalibkenzi@gmail.com" class="contact-link">abdelmotalibkenzi@gmail.com</a>
+        </div>
+        <div class="contact-item">
+          <span class="icon"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5C4.98 4.88 3.87 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1s2.48 1.12 2.48 2.5zM.5 8.75h4V23h-4V8.75zm7.5 0h3.83v1.94h.06c.53-1 1.84-2.06 3.79-2.06 4.05 0 4.8 2.67 4.8 6.14V23h-4v-6.7c0-1.6-.03-3.66-2.23-3.66-2.24 0-2.58 1.75-2.58 3.55V23h-4V8.75z"></path></svg></span>
+          <a href="https://www.linkedin.com/in/abdelmoutalib-kenzi-09b57a294" target="_blank" rel="noopener noreferrer" class="contact-link">LinkedIn</a>
+        </div>
+        <div class="contact-item">
+          <span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"></rect><circle cx="12" cy="12" r="4.2"></circle><circle cx="17.4" cy="6.6" r="0.9" fill="currentColor" stroke="none"></circle></svg></span>
+          <a href="https://www.instagram.com/talib.kenzi/" target="_blank" rel="noopener noreferrer" class="contact-link">Instagram</a>
+        </div>
+        <div class="contact-item">
+          <span class="icon"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M22 12.06C22 6.5 17.52 2 12 2S2 6.5 2 12.06C2 17.06 5.66 21.2 10.44 22v-7.03H7.9v-2.91h2.54V9.85c0-2.5 1.49-3.89 3.77-3.89 1.09 0 2.23.2 2.23.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56v1.88h2.78l-.44 2.91h-2.34V22C18.34 21.2 22 17.06 22 12.06z"></path></svg></span>
+          <a href="https://www.facebook.com/talib.kenzi.2025" target="_blank" rel="noopener noreferrer" class="contact-link">Facebook</a>
+        </div>
+        <div class="contact-item">
+          <span class="icon"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.24 2H21l-6.55 7.49L22.2 22h-6.4l-5.02-6.56L4.98 22H2.2l7.02-8.02L1.8 2h6.56l4.53 5.99L18.24 2zm-1.12 18.17h1.77L7.02 3.73H5.12l12 16.44z"></path></svg></span>
+          <a href="https://x.com/TKenzi2003" target="_blank" rel="noopener noreferrer" class="contact-link">X</a>
+        </div>
       </div>
       <div>
         <div class="contact-form" id="contactForm">
           <div class="form-row">
             <div class="form-group">
-              <label for="name">الاسم</label>
-              <input type="text" id="name" placeholder="اسمك" />
+              <label for="name" data-en="Name">الاسم</label>
+              <input type="text" id="name" placeholder="اسمك" data-en-placeholder="Your name" />
             </div>
             <div class="form-group">
-              <label for="email">البريد الإلكتروني</label>
-              <input type="email" id="email" placeholder="بريدك@example.com" />
+              <label for="email" data-en="Email">البريد الإلكتروني</label>
+              <input type="email" id="email" placeholder="بريدك@example.com" data-en-placeholder="your@example.com" />
             </div>
           </div>
           <div class="form-group">
-            <label for="subject">الموضوع</label>
-            <input type="text" id="subject" placeholder="عنوان الرسالة" />
+            <label for="subject" data-en="Subject">الموضوع</label>
+            <input type="text" id="subject" placeholder="عنوان الرسالة" data-en-placeholder="Message subject" />
           </div>
           <div class="form-group">
-            <label for="message">الرسالة</label>
-            <textarea id="message" placeholder="اكتب رسالتك هنا..."></textarea>
+            <label for="message" data-en="Message">الرسالة</label>
+            <textarea id="message" placeholder="اكتب رسالتك هنا..." data-en-placeholder="Write your message here..."></textarea>
           </div>
-          <button class="btn btn-primary" id="send-btn" onclick="sendMessage()">إرسال الرسالة ✦</button>
-          <div class="success-msg" id="successMsg">✅ تم الإرسال! سأرد عليك في أقرب وقت.</div>
+          <button class="btn btn-primary" id="send-btn" onclick="sendMessage()" data-en="Send Message ✦">إرسال الرسالة ✦</button>
+          <div class="success-msg" id="successMsg" data-en="✅ Sent! I'll get back to you soon.">✅ تم الإرسال! سأرد عليك في أقرب وقت.</div>
         </div>
       </div>
     </div>
@@ -474,8 +680,20 @@
 
   <!-- FOOTER -->
   <footer>
-    <div class="footer-logo">&lt; portfolio /&gt;</div>
-    <div>صُمّم بـ ♥ — جميع الحقوق محفوظة © 2025</div>
+    <div class="footer-logo">
+      <svg width="26" height="26" viewBox="0 0 38 38" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="logoGradFooter" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" style="stop-color:var(--accent)" />
+            <stop offset="100%" style="stop-color:var(--accent2)" />
+          </linearGradient>
+        </defs>
+        <rect x="1.5" y="1.5" width="35" height="35" rx="11" fill="none" stroke="url(#logoGradFooter)" stroke-width="1.6"/>
+        <text x="50%" y="53%" text-anchor="middle" dominant-baseline="middle" font-family="'Space Mono', monospace" font-weight="700" font-size="14" letter-spacing="0.5" fill="url(#logoGradFooter)">AK</text>
+      </svg>
+      <span data-en="My Blog">مدونتي</span>
+    </div>
+    <div data-en="Made with ♥ — All rights reserved © 2025">صُمّم بـ ♥ — جميع الحقوق محفوظة © 2025</div>
   </footer>
 
   <script>
@@ -484,10 +702,10 @@
       const email = document.getElementById('email').value.trim();
       const message = document.getElementById('message').value.trim();
       if (!name || !email || !message) {
-        alert('يرجى تعبئة الاسم والبريد والرسالة على الأقل.');
+        alert(uiStrings[currentLang].fillRequired);
         return;
       }
-      document.getElementById('send-btn').textContent = 'جارٍ الإرسال...';
+      document.getElementById('send-btn').textContent = uiStrings[currentLang].sending;
       setTimeout(() => {
         document.getElementById('send-btn').style.display = 'none';
         document.getElementById('successMsg').style.display = 'block';
@@ -506,6 +724,96 @@
     }, { threshold: 0.3 });
     const skillsSection = document.getElementById('skills');
     if (skillsSection) observer.observe(skillsSection);
+
+    // ─── Hamburger menu (mobile) ───
+    const navToggle = document.getElementById('navToggle');
+    const navLinks = document.getElementById('navLinks');
+    const navOverlay = document.getElementById('navOverlay');
+
+    function closeMenu() {
+      navToggle.classList.remove('open');
+      navLinks.classList.remove('open');
+      navOverlay.classList.remove('open');
+      navToggle.setAttribute('aria-expanded', 'false');
+    }
+    function toggleMenu() {
+      const isOpen = navLinks.classList.toggle('open');
+      navToggle.classList.toggle('open', isOpen);
+      navOverlay.classList.toggle('open', isOpen);
+      navToggle.setAttribute('aria-expanded', String(isOpen));
+    }
+    navToggle.addEventListener('click', toggleMenu);
+    navOverlay.addEventListener('click', closeMenu);
+    navLinks.querySelectorAll('a').forEach(a => a.addEventListener('click', closeMenu));
+
+    // ─── Active link highlight on scroll ───
+    const sections = document.querySelectorAll('section[id]');
+    const navAnchors = document.querySelectorAll('.nav-links a');
+    const navObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          navAnchors.forEach(a => a.classList.remove('active'));
+          const active = document.querySelector(`.nav-links a[href="#${entry.target.id}"]`);
+          if (active) active.classList.add('active');
+        }
+      });
+    }, { rootMargin: '-45% 0px -50% 0px', threshold: 0 });
+    sections.forEach(s => navObserver.observe(s));
+
+    // ─── Scroll reveal animations ───
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('in-view');
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15 });
+    document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+
+    // ─── Language toggle (AR / EN) ───
+    const langToggle = document.getElementById('langToggle');
+    const translatable = document.querySelectorAll('[data-en]');
+    const placeholders = document.querySelectorAll('[data-en-placeholder]');
+    const ariaEls = document.querySelectorAll('[data-en-aria]');
+    let currentLang = 'ar';
+
+    // Cache original Arabic content before first switch
+    translatable.forEach(el => { el.dataset.ar = el.innerHTML; });
+    placeholders.forEach(el => { el.dataset.arPlaceholder = el.getAttribute('placeholder'); });
+    ariaEls.forEach(el => { el.dataset.arAria = el.getAttribute('aria-label'); });
+
+    const uiStrings = {
+      ar: {
+        fillRequired: 'يرجى تعبئة الاسم والبريد والرسالة على الأقل.',
+        sending: 'جارٍ الإرسال...'
+      },
+      en: {
+        fillRequired: 'Please fill in at least your name, email, and message.',
+        sending: 'Sending...'
+      }
+    };
+
+    function setLang(lang) {
+      currentLang = lang;
+      document.documentElement.lang = lang === 'en' ? 'en' : 'ar';
+      document.documentElement.dir = lang === 'en' ? 'ltr' : 'rtl';
+      langToggle.textContent = lang === 'en' ? 'AR' : 'EN';
+
+      translatable.forEach(el => {
+        el.innerHTML = lang === 'en' ? el.dataset.en : el.dataset.ar;
+      });
+      placeholders.forEach(el => {
+        el.setAttribute('placeholder', lang === 'en' ? el.dataset.enPlaceholder : el.dataset.arPlaceholder);
+      });
+      ariaEls.forEach(el => {
+        el.setAttribute('aria-label', lang === 'en' ? el.dataset.enAria : el.dataset.arAria);
+      });
+    }
+
+    langToggle.addEventListener('click', () => {
+      setLang(currentLang === 'ar' ? 'en' : 'ar');
+    });
   </script>
 </body>
 </html>
