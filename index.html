@@ -4,6 +4,26 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>عبدالمطلب كنزي — بورتفوليو</title>
+  <meta name="description" content="عبدالمطلب كنزي — تقني متخصص في الأتمتة والقياس الصناعي (PLC، أجهزة الاستشعار، الأنظمة الهيدروليكية والهوائية)، ومخرج إبداعي رقمي. بورتفوليو شخصي يعرض المهارات والمشاريع." />
+  <meta name="author" content="Abdelmotalib Kenzi" />
+
+  <!-- Open Graph / Facebook & LinkedIn -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="عبدالمطلب كنزي — بورتفوليو" />
+  <meta property="og:description" content="تقني متخصص في الأتمتة والقياس الصناعي، ومخرج إبداعي رقمي. اكتشف المهارات والمشاريع." />
+  <meta property="og:image" content="https://talibknz03.github.io/profile.jpg" />
+  <meta property="og:url" content="https://talibknz03.github.io" />
+  <meta property="og:locale" content="ar_AR" />
+
+  <!-- Twitter / X Card -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="عبدالمطلب كنزي — بورتفوليو" />
+  <meta name="twitter:description" content="تقني متخصص في الأتمتة والقياس الصناعي، ومخرج إبداعي رقمي." />
+  <meta name="twitter:image" content="https://talibknz03.github.io/profile.jpg" />
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/jpeg" href="profile.jpg" />
+
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -21,6 +41,17 @@
     }
 
     html { scroll-behavior: smooth; }
+
+    /* ─── CUSTOM SCROLLBAR ─── */
+    html { scrollbar-width: thin; scrollbar-color: var(--accent) var(--surface); }
+    ::-webkit-scrollbar { width: 10px; height: 10px; }
+    ::-webkit-scrollbar-track { background: var(--surface); }
+    ::-webkit-scrollbar-thumb {
+      background: linear-gradient(180deg, var(--accent), var(--accent2));
+      border-radius: 10px;
+      border: 2px solid var(--surface);
+    }
+    ::-webkit-scrollbar-thumb:hover { background: var(--accent2); }
 
     body {
       background: var(--bg);
@@ -77,6 +108,8 @@
     .nav-links a:hover::after,
     .nav-links a.active::after { width: 100%; }
     .nav-links a.active { color: var(--text); }
+    .nav-links a.nav-cv-link { color: var(--accent); }
+    .nav-links a.nav-cv-link:hover { color: var(--accent2); }
 
     /* ─── LANG TOGGLE ─── */
     .nav-actions { display: flex; align-items: center; }
@@ -192,6 +225,54 @@
     .btn-ghost:hover {
       border-color: var(--accent);
       color: var(--accent);
+    }
+    .btn-outline {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: transparent;
+      color: var(--muted);
+      border: 1px solid var(--border);
+      margin-inline-start: 1rem;
+    }
+    .btn-outline:hover {
+      border-color: var(--accent2);
+      color: var(--accent2);
+    }
+    .btn-outline svg { flex-shrink: 0; }
+
+    /* ─── BACK TO TOP ─── */
+    #backToTop {
+      position: fixed;
+      bottom: 28px;
+      inset-inline-end: 28px;
+      width: 46px; height: 46px;
+      border-radius: 50%;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      color: var(--accent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(12px);
+      transition: opacity 0.3s, transform 0.3s, visibility 0.3s, border-color 0.2s, box-shadow 0.2s;
+      z-index: 90;
+    }
+    #backToTop.visible {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+    #backToTop:hover {
+      border-color: var(--accent);
+      box-shadow: 0 0 20px rgba(123,92,250,0.35);
+    }
+    #backToTop svg { width: 20px; height: 20px; }
+    @media (max-width: 768px) {
+      #backToTop { bottom: 20px; inset-inline-end: 20px; width: 42px; height: 42px; }
     }
 
     /* ─── SECTIONS ─── */
@@ -399,6 +480,16 @@
       font-size: 0.9rem;
       text-align: center;
     }
+    .error-msg {
+      display: none;
+      background: rgba(240,90,90,0.1);
+      border: 1px solid #f05a5a;
+      border-radius: 8px;
+      padding: 1rem;
+      color: #f28b8b;
+      font-size: 0.9rem;
+      text-align: center;
+    }
 
     /* ─── FOOTER ─── */
     footer {
@@ -521,6 +612,7 @@
       <li><a href="#skills" data-en="Skills">مهاراتي</a></li>
       <li><a href="#projects" data-en="Projects">مشاريعي</a></li>
       <li><a href="#contact" data-en="Contact">تواصل</a></li>
+      <li><a href="Abdelmotalib_Kenzi_CV.pdf" download class="nav-cv-link" data-en="Download CV">تحميل CV</a></li>
     </ul>
     <div class="nav-actions">
       <button class="lang-toggle" id="langToggle" type="button">EN</button>
@@ -541,6 +633,10 @@
       <div class="fade-up delay-3">
         <a href="#contact" class="btn btn-ghost" data-en="Get in Touch">تواصل معي</a>
         <a href="#projects" class="btn btn-primary" data-en="View My Work">شوف أعمالي</a>
+        <a href="Abdelmotalib_Kenzi_CV.pdf" download class="btn btn-outline">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><path d="M12 3v12"></path><path d="M7 10l5 5 5-5"></path><path d="M4 19h16"></path></svg>
+          <span data-en="Download CV">تحميل السيرة الذاتية</span>
+        </a>
       </div>
     </div>
   </section>
@@ -654,28 +750,31 @@
         </div>
       </div>
       <div>
-        <div class="contact-form" id="contactForm">
+        <form class="contact-form" id="contactForm" action="https://formspree.io/f/meeywqzj" method="POST">
+          <!-- Honeypot field (spam protection) -->
+          <input type="text" name="_gotcha" style="display:none !important" tabIndex="-1" autocomplete="off" />
           <div class="form-row">
             <div class="form-group">
               <label for="name" data-en="Name">الاسم</label>
-              <input type="text" id="name" placeholder="اسمك" data-en-placeholder="Your name" />
+              <input type="text" id="name" name="name" placeholder="اسمك" data-en-placeholder="Your name" maxlength="80" required />
             </div>
             <div class="form-group">
               <label for="email" data-en="Email">البريد الإلكتروني</label>
-              <input type="email" id="email" placeholder="بريدك@example.com" data-en-placeholder="your@example.com" />
+              <input type="email" id="email" name="email" placeholder="بريدك@example.com" data-en-placeholder="your@example.com" maxlength="120" required />
             </div>
           </div>
           <div class="form-group">
             <label for="subject" data-en="Subject">الموضوع</label>
-            <input type="text" id="subject" placeholder="عنوان الرسالة" data-en-placeholder="Message subject" />
+            <input type="text" id="subject" name="subject" placeholder="عنوان الرسالة" data-en-placeholder="Message subject" maxlength="150" required />
           </div>
           <div class="form-group">
             <label for="message" data-en="Message">الرسالة</label>
-            <textarea id="message" placeholder="اكتب رسالتك هنا..." data-en-placeholder="Write your message here..."></textarea>
+            <textarea id="message" name="message" placeholder="اكتب رسالتك هنا..." data-en-placeholder="Write your message here..." maxlength="2000" required></textarea>
           </div>
-          <button class="btn btn-primary" id="send-btn" onclick="sendMessage()" data-en="Send Message ✦">إرسال الرسالة ✦</button>
+          <button class="btn btn-primary" id="send-btn" type="submit" data-en="Send Message ✦">إرسال الرسالة ✦</button>
+          <div class="error-msg" id="errorMsg" data-en="⚠️ Something went wrong. Please try again or email me directly." style="display:none;">⚠️ وقع خطأ، حاول مرة أخرى أو راسلني مباشرة بالإيميل.</div>
           <div class="success-msg" id="successMsg" data-en="✅ Sent! I'll get back to you soon.">✅ تم الإرسال! سأرد عليك في أقرب وقت.</div>
-        </div>
+        </form>
       </div>
     </div>
   </section>
@@ -698,8 +797,21 @@
     <div data-en="Made with ♥ — All rights reserved © 2025">صُمّم بـ ♥ — جميع الحقوق محفوظة © 2025</div>
   </footer>
 
+  <button id="backToTop" aria-label="العودة للأعلى" data-en-aria="Back to top" type="button">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5"></path><path d="M5 12l7-7 7 7"></path></svg>
+  </button>
+
   <script>
-    function sendMessage() {
+    document.getElementById('contactForm').addEventListener('submit', async function (e) {
+      e.preventDefault();
+      const form = e.target;
+      const sendBtn = document.getElementById('send-btn');
+      const successMsg = document.getElementById('successMsg');
+      const errorMsg = document.getElementById('errorMsg');
+
+      successMsg.style.display = 'none';
+      errorMsg.style.display = 'none';
+
       const name = document.getElementById('name').value.trim();
       const email = document.getElementById('email').value.trim();
       const message = document.getElementById('message').value.trim();
@@ -707,12 +819,30 @@
         alert(uiStrings[currentLang].fillRequired);
         return;
       }
-      document.getElementById('send-btn').textContent = uiStrings[currentLang].sending;
-      setTimeout(() => {
-        document.getElementById('send-btn').style.display = 'none';
-        document.getElementById('successMsg').style.display = 'block';
-      }, 800);
-    }
+
+      sendBtn.disabled = true;
+      sendBtn.textContent = uiStrings[currentLang].sending;
+
+      try {
+        const response = await fetch(form.action, {
+          method: 'POST',
+          body: new FormData(form),
+          headers: { 'Accept': 'application/json' }
+        });
+
+        if (response.ok) {
+          form.reset();
+          successMsg.style.display = 'block';
+        } else {
+          errorMsg.style.display = 'block';
+        }
+      } catch (err) {
+        errorMsg.style.display = 'block';
+      } finally {
+        sendBtn.disabled = false;
+        sendBtn.textContent = currentLang === 'en' ? sendBtn.dataset.en : sendBtn.dataset.ar;
+      }
+    });
 
     // Smooth skill bar animation on scroll
     const observer = new IntersectionObserver((entries) => {
@@ -772,6 +902,15 @@
       });
     }, { threshold: 0.15 });
     document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+
+    // ─── Back to top button ───
+    const backToTop = document.getElementById('backToTop');
+    window.addEventListener('scroll', () => {
+      backToTop.classList.toggle('visible', window.scrollY > 500);
+    });
+    backToTop.addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
 
     // ─── Language toggle (AR / EN) ───
     const langToggle = document.getElementById('langToggle');
