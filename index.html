@@ -417,6 +417,74 @@
     .project-title { font-size: 1.1rem; font-weight: 700; margin-bottom: 0.6rem; }
     .project-desc { color: var(--muted); font-size: 0.9rem; }
 
+    /* ─── BLOG ─── */
+    .blog-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+      margin-top: 3rem;
+    }
+    .blog-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 1.8rem;
+      cursor: pointer;
+      transition: border-color 0.25s, transform 0.25s;
+    }
+    .blog-card:hover { border-color: var(--accent); transform: translateY(-4px); }
+    .blog-date {
+      font-family: var(--mono);
+      font-size: 0.75rem;
+      color: var(--accent);
+      margin-bottom: 0.6rem;
+    }
+    .blog-title { font-size: 1.1rem; font-weight: 700; margin-bottom: 0.6rem; }
+    .blog-excerpt { color: var(--muted); font-size: 0.9rem; }
+    .blog-empty { color: var(--muted); text-align: center; padding: 2rem; grid-column: 1 / -1; }
+
+    .post-modal-overlay {
+      display: none;
+      position: fixed; inset: 0;
+      background: rgba(0,0,0,0.7);
+      backdrop-filter: blur(4px);
+      z-index: 300;
+      align-items: center;
+      justify-content: center;
+      padding: 5vw;
+    }
+    .post-modal-overlay.open { display: flex; }
+    .post-modal {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 2.5rem;
+      max-width: 600px;
+      width: 100%;
+      max-height: 80vh;
+      overflow-y: auto;
+      position: relative;
+    }
+    .post-modal-close {
+      position: absolute;
+      top: 1rem; inset-inline-end: 1rem;
+      width: 34px; height: 34px;
+      border-radius: 50%;
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--muted);
+      cursor: pointer;
+      font-size: 1rem;
+    }
+    .post-modal-close:hover { border-color: var(--accent); color: var(--accent); }
+    .post-modal-date {
+      font-family: var(--mono);
+      font-size: 0.75rem;
+      color: var(--accent);
+      margin-bottom: 0.6rem;
+    }
+    .post-modal .post-modal-body { color: var(--muted); margin-top: 1rem; }
+
     /* ─── CONTACT ─── */
     #contact { background: var(--surface); }
     .contact-wrap {
@@ -611,6 +679,7 @@
       <li><a href="#about" data-en="About">من أنا</a></li>
       <li><a href="#skills" data-en="Skills">مهاراتي</a></li>
       <li><a href="#projects" data-en="Projects">مشاريعي</a></li>
+      <li><a href="#blog" data-en="Blog">المدونة</a></li>
       <li><a href="#contact" data-en="Contact">تواصل</a></li>
       <li><a href="Abdelmotalib_Kenzi_CV.pdf" download class="nav-cv-link" data-en="Download CV">تحميل CV</a></li>
     </ul>
@@ -664,32 +733,7 @@
       <h2 data-en="My Skills">مهاراتي</h2>
       <div class="section-line"></div>
     </div>
-    <div class="skills-grid reveal reveal-stagger">
-      <div class="skill-card stagger-item">
-        <div class="skill-icon">⚙️</div>
-        <div class="skill-name" data-en="PLC Programming &amp; Industrial Automation">برمجة PLC والأتمتة الصناعية</div>
-        <div class="skill-level" data-en="Advanced">متقدم</div>
-        <div class="skill-bar"><div class="skill-bar-fill" style="width:85%"></div></div>
-      </div>
-      <div class="skill-card stagger-item">
-        <div class="skill-icon">📡</div>
-        <div class="skill-name" data-en="Sensors &amp; Actuators">أجهزة الاستشعار والمشغلات</div>
-        <div class="skill-level" data-en="Advanced">متقدم</div>
-        <div class="skill-bar"><div class="skill-bar-fill" style="width:85%"></div></div>
-      </div>
-      <div class="skill-card stagger-item">
-        <div class="skill-icon">🔧</div>
-        <div class="skill-name" data-en="Hydraulic &amp; Pneumatic Systems">الأنظمة الهيدروليكية والهوائية</div>
-        <div class="skill-level" data-en="Intermediate">متوسط</div>
-        <div class="skill-bar"><div class="skill-bar-fill" style="width:70%"></div></div>
-      </div>
-      <div class="skill-card stagger-item">
-        <div class="skill-icon">💻</div>
-        <div class="skill-name" data-en="Web Development (HTML/CSS/JS)">تطوير الويب (HTML/CSS/JS)</div>
-        <div class="skill-level" data-en="Intermediate">متوسط</div>
-        <div class="skill-bar"><div class="skill-bar-fill" style="width:65%"></div></div>
-      </div>
-    </div>
+    <div class="skills-grid reveal reveal-stagger" id="skillsGrid"></div>
   </section>
 
   <!-- PROJECTS -->
@@ -699,24 +743,28 @@
       <h2 data-en="My Projects">مشاريعي</h2>
       <div class="section-line"></div>
     </div>
-    <div class="projects-grid reveal reveal-stagger">
-      <div class="project-card stagger-item">
-        <span class="project-tag" data-en="Internship">تدريب ميداني</span>
-        <div class="project-title" data-en="Regulation Department — OCP Group">مصلحة التنظيم — مجمع OCP</div>
-        <p class="project-desc" data-en="Field internship in the régulation department, working with temperature and pressure sensors, industrial actuators, and programmable logic controllers (PLCs).">تدريب ميداني بمصلحة régulation، اشتغلت خلاله على أجهزة استشعار درجة الحرارة والضغط، المشغلات الصناعية، والمتحكمات المنطقية القابلة للبرمجة PLC.</p>
-      </div>
-      <div class="project-card stagger-item">
-        <span class="project-tag" data-en="Creative Direction">إخراج إبداعي</span>
-        <div class="project-title">MOMO TV</div>
-        <p class="project-desc" data-en="Creative Director for an educational Arabic-language animated series for children (ages 3-7), including storyboard building and episode development.">مخرج إبداعي لمسلسل رسوم متحركة تعليمي باللغة العربية موجه للأطفال (3-7 سنوات)، شمل بناء القصص المصورة (storyboard) وتطوير الحلقات.</p>
-      </div>
-      <div class="project-card stagger-item">
-        <span class="project-tag" data-en="Web Development">تطوير ويب</span>
-        <div class="project-title" data-en="Arabic Websites">مواقع ويب عربية</div>
-        <p class="project-desc" data-en="Designed and coded two complete websites (a personal portfolio and a sports blog) using HTML, CSS, and JavaScript from scratch.">تصميم وبرمجة موقعين كاملين (بورتفوليو شخصي ومدونة رياضية) باستعمال HTML وCSS وJavaScript من الصفر.</p>
-      </div>
-    </div>
+    <div class="projects-grid reveal reveal-stagger" id="projectsGrid"></div>
   </section>
+
+  <!-- BLOG -->
+  <section id="blog">
+    <div class="reveal">
+      <p class="section-label" data-en="Blog">المدونة</p>
+      <h2 data-en="Latest Posts">آخر التدوينات</h2>
+      <div class="section-line"></div>
+    </div>
+    <div class="blog-grid reveal reveal-stagger" id="blogGrid"></div>
+  </section>
+
+  <!-- POST MODAL -->
+  <div class="post-modal-overlay" id="postModalOverlay">
+    <div class="post-modal">
+      <button class="post-modal-close" id="postModalClose" aria-label="إغلاق" data-en-aria="Close">✕</button>
+      <p class="post-modal-date" id="postModalDate"></p>
+      <h3 id="postModalTitle"></h3>
+      <div class="post-modal-body" id="postModalBody"></div>
+    </div>
+  </div>
 
   <!-- CONTACT -->
   <section id="contact">
@@ -844,18 +892,82 @@
       }
     });
 
-    // Smooth skill bar animation on scroll
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(e => {
-        if (e.isIntersecting) {
-          e.target.querySelectorAll('.skill-bar-fill').forEach(bar => {
-            bar.style.width = bar.style.width;
-          });
-        }
+    // ─── Dynamic content (skills, projects, blog) from data.json ───
+    let siteData = { skills: [], projects: [], posts: [] };
+
+    function renderSkills(lang) {
+      const grid = document.getElementById('skillsGrid');
+      grid.innerHTML = siteData.skills.map(s => `
+        <div class="skill-card stagger-item">
+          <div class="skill-icon">${s.icon}</div>
+          <div class="skill-name">${lang === 'en' ? s.name_en : s.name_ar}</div>
+          <div class="skill-level">${lang === 'en' ? s.level_en : s.level_ar}</div>
+          <div class="skill-bar"><div class="skill-bar-fill" style="width:${s.percent}%"></div></div>
+        </div>
+      `).join('');
+    }
+
+    function renderProjects(lang) {
+      const grid = document.getElementById('projectsGrid');
+      grid.innerHTML = siteData.projects.map(p => `
+        <div class="project-card stagger-item">
+          <span class="project-tag">${lang === 'en' ? p.tag_en : p.tag_ar}</span>
+          <div class="project-title">${lang === 'en' ? p.title_en : p.title_ar}</div>
+          <p class="project-desc">${lang === 'en' ? p.desc_en : p.desc_ar}</p>
+        </div>
+      `).join('');
+    }
+
+    function renderBlog(lang) {
+      const grid = document.getElementById('blogGrid');
+      if (!siteData.posts.length) {
+        grid.innerHTML = `<div class="blog-empty">${lang === 'en' ? 'No posts yet. Check back soon!' : 'ماكاينش تدوينات بعد. عاود زور قريب!'}</div>`;
+        return;
+      }
+      grid.innerHTML = siteData.posts.map(post => `
+        <div class="blog-card stagger-item" data-post-id="${post.id}">
+          <div class="blog-date">${post.date}</div>
+          <div class="blog-title">${lang === 'en' ? post.title_en : post.title_ar}</div>
+          <div class="blog-excerpt">${lang === 'en' ? post.excerpt_en : post.excerpt_ar}</div>
+        </div>
+      `).join('');
+      grid.querySelectorAll('.blog-card').forEach(card => {
+        card.addEventListener('click', () => openPost(card.dataset.postId));
       });
-    }, { threshold: 0.3 });
-    const skillsSection = document.getElementById('skills');
-    if (skillsSection) observer.observe(skillsSection);
+    }
+
+    function renderDynamicContent(lang) {
+      renderSkills(lang);
+      renderProjects(lang);
+      renderBlog(lang);
+    }
+
+    function openPost(id) {
+      const post = siteData.posts.find(p => p.id === id);
+      if (!post) return;
+      document.getElementById('postModalDate').textContent = post.date;
+      document.getElementById('postModalTitle').textContent = currentLang === 'en' ? post.title_en : post.title_ar;
+      document.getElementById('postModalBody').textContent = currentLang === 'en' ? post.content_en : post.content_ar;
+      document.getElementById('postModalOverlay').classList.add('open');
+    }
+    document.getElementById('postModalClose').addEventListener('click', () => {
+      document.getElementById('postModalOverlay').classList.remove('open');
+    });
+    document.getElementById('postModalOverlay').addEventListener('click', (e) => {
+      if (e.target.id === 'postModalOverlay') e.target.classList.remove('open');
+    });
+
+    fetch('data.json')
+      .then(res => res.json())
+      .then(data => {
+        siteData = data;
+        renderDynamicContent('ar');
+      })
+      .catch(() => {
+        document.getElementById('skillsGrid').innerHTML = '';
+        document.getElementById('projectsGrid').innerHTML = '';
+        document.getElementById('blogGrid').innerHTML = '<div class="blog-empty">تعذر تحميل المحتوى.</div>';
+      });
 
     // ─── Hamburger menu (mobile) ───
     const navToggle = document.getElementById('navToggle');
@@ -950,6 +1062,8 @@
       ariaEls.forEach(el => {
         el.setAttribute('aria-label', lang === 'en' ? el.dataset.enAria : el.dataset.arAria);
       });
+
+      renderDynamicContent(lang);
     }
 
     langToggle.addEventListener('click', () => {

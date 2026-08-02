@@ -1,0 +1,74 @@
+{
+  "skills": [
+    {
+      "icon": "⚙️",
+      "name_ar": "برمجة PLC والأتمتة الصناعية",
+      "name_en": "PLC Programming & Industrial Automation",
+      "level_ar": "متقدم",
+      "level_en": "Advanced",
+      "percent": 85
+    },
+    {
+      "icon": "📡",
+      "name_ar": "أجهزة الاستشعار والمشغلات",
+      "name_en": "Sensors & Actuators",
+      "level_ar": "متقدم",
+      "level_en": "Advanced",
+      "percent": 85
+    },
+    {
+      "icon": "🔧",
+      "name_ar": "الأنظمة الهيدروليكية والهوائية",
+      "name_en": "Hydraulic & Pneumatic Systems",
+      "level_ar": "متوسط",
+      "level_en": "Intermediate",
+      "percent": 70
+    },
+    {
+      "icon": "💻",
+      "name_ar": "تطوير الويب (HTML/CSS/JS)",
+      "name_en": "Web Development (HTML/CSS/JS)",
+      "level_ar": "متوسط",
+      "level_en": "Intermediate",
+      "percent": 65
+    }
+  ],
+  "projects": [
+    {
+      "tag_ar": "تدريب ميداني",
+      "tag_en": "Internship",
+      "title_ar": "مصلحة التنظيم — مجمع OCP",
+      "title_en": "Regulation Department — OCP Group",
+      "desc_ar": "تدريب ميداني بمصلحة régulation، اشتغلت خلاله على أجهزة استشعار درجة الحرارة والضغط، المشغلات الصناعية، والمتحكمات المنطقية القابلة للبرمجة PLC.",
+      "desc_en": "Field internship in the régulation department, working with temperature and pressure sensors, industrial actuators, and programmable logic controllers (PLCs)."
+    },
+    {
+      "tag_ar": "إخراج إبداعي",
+      "tag_en": "Creative Direction",
+      "title_ar": "MOMO TV",
+      "title_en": "MOMO TV",
+      "desc_ar": "مخرج إبداعي لمسلسل رسوم متحركة تعليمي باللغة العربية موجه للأطفال (3-7 سنوات)، شمل بناء القصص المصورة (storyboard) وتطوير الحلقات.",
+      "desc_en": "Creative Director for an educational Arabic-language animated series for children (ages 3-7), including storyboard building and episode development."
+    },
+    {
+      "tag_ar": "تطوير ويب",
+      "tag_en": "Web Development",
+      "title_ar": "مواقع ويب عربية",
+      "title_en": "Arabic Websites",
+      "desc_ar": "تصميم وبرمجة موقعين كاملين (بورتفوليو شخصي ومدونة رياضية) باستعمال HTML وCSS وJavaScript من الصفر.",
+      "desc_en": "Designed and coded two complete websites (a personal portfolio and a sports blog) using HTML, CSS, and JavaScript from scratch."
+    }
+  ],
+  "posts": [
+    {
+      "id": "post-1",
+      "date": "2026-08-02",
+      "title_ar": "مرحباً بكم في مدونتي",
+      "title_en": "Welcome to My Blog",
+      "excerpt_ar": "أول تدوينة فالمدونة — نبذة عن المسار ديالي وشنو غادي تلقاو هنا مستقبلاً.",
+      "excerpt_en": "The first post on the blog — a quick note about my journey and what you'll find here going forward.",
+      "content_ar": "مرحباً بيكم فالمدونة ديالي! هنا غادي نشارك تجاربي فمجال الأتمتة الصناعية، مشاريعي التقنية والإبداعية، وكل جديد كيوقع معايا فالمسار المهني. تابعوني باش توصلكم كل تدوينة جديدة.",
+      "content_en": "Welcome to my blog! Here I'll be sharing my experiences in industrial automation, my technical and creative projects, and updates from my professional journey. Follow along for new posts."
+    }
+  ]
+}

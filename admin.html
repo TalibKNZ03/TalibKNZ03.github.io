@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="robots" content="noindex, nofollow" />
+<title>لوحة التحكم — مدونتي</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --bg: #0d0d0f; --surface: #141417; --border: #222228;
+    --accent: #7b5cfa; --accent2: #c084fc; --text: #e8e8f0; --muted: #666680;
+    --mono: 'Space Mono', monospace; --sans: 'IBM Plex Sans Arabic', sans-serif;
+    --danger: #f05a5a;
+  }
+  body {
+    background: var(--bg); color: var(--text); font-family: var(--sans);
+    line-height: 1.6; min-height: 100vh; padding-bottom: 4rem;
+  }
+  header {
+    padding: 1.5rem 5vw; border-bottom: 1px solid var(--border);
+    display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;
+  }
+  header h1 { font-size: 1.3rem; background: linear-gradient(135deg, var(--accent), var(--accent2)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+  header a { color: var(--muted); text-decoration: none; font-size: 0.85rem; }
+  header a:hover { color: var(--accent); }
+  main { max-width: 900px; margin: 0 auto; padding: 2rem 5vw; }
+
+  /* Token gate */
+  #tokenGate {
+    max-width: 480px; margin: 4rem auto; background: var(--surface);
+    border: 1px solid var(--border); border-radius: 14px; padding: 2rem; text-align: center;
+  }
+  #tokenGate p { color: var(--muted); font-size: 0.9rem; margin: 1rem 0; }
+  #tokenGate input {
+    width: 100%; padding: 0.8rem 1rem; background: var(--bg); border: 1px solid var(--border);
+    border-radius: 8px; color: var(--text); font-family: var(--mono); font-size: 0.85rem; margin-bottom: 1rem;
+  }
+  #tokenGate input:focus { outline: none; border-color: var(--accent); }
+
+  .btn {
+    display: inline-block; padding: 0.7rem 1.6rem; border-radius: 8px; border: none;
+    font-family: var(--sans); font-size: 0.9rem; font-weight: 600; cursor: pointer;
+    background: linear-gradient(135deg, var(--accent), var(--accent2)); color: #fff;
+  }
+  .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+  .btn-outline { background: transparent; border: 1px solid var(--border); color: var(--muted); }
+  .btn-outline:hover { border-color: var(--accent); color: var(--accent); }
+  .btn-danger { background: var(--danger); color: #fff; padding: 0.4rem 0.8rem; font-size: 0.78rem; }
+  .btn-small { padding: 0.4rem 0.9rem; font-size: 0.8rem; }
+
+  /* Tabs */
+  .tabs { display: flex; gap: 0.5rem; margin-bottom: 2rem; border-bottom: 1px solid var(--border); flex-wrap: wrap; }
+  .tab {
+    padding: 0.8rem 1.2rem; background: transparent; border: none; color: var(--muted);
+    font-family: var(--sans); font-size: 0.9rem; cursor: pointer; border-bottom: 2px solid transparent;
+  }
+  .tab.active { color: var(--accent); border-bottom-color: var(--accent); }
+  .tab-panel { display: none; }
+  .tab-panel.active { display: block; }
+
+  .item-card {
+    background: var(--surface); border: 1px solid var(--border); border-radius: 10px;
+    padding: 1.2rem; margin-bottom: 1rem;
+  }
+  .item-card-header { display: flex; justify-content: space-between; align-items: start; gap: 1rem; margin-bottom: 0.6rem; }
+  .item-card-title { font-weight: 700; font-size: 0.95rem; }
+  .item-card-sub { color: var(--muted); font-size: 0.8rem; }
+  .item-actions { display: flex; gap: 0.5rem; flex-shrink: 0; }
+
+  .form-block { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 1.5rem; margin-top: 1rem; }
+  .form-block h3 { font-size: 1rem; margin-bottom: 1rem; color: var(--accent); }
+  .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem; }
+  @media (max-width: 640px) { .field-row { grid-template-columns: 1fr; } }
+  .field { margin-bottom: 1rem; }
+  .field label { display: block; font-size: 0.8rem; color: var(--muted); margin-bottom: 0.4rem; }
+  .field input, .field textarea {
+    width: 100%; padding: 0.7rem; background: var(--bg); border: 1px solid var(--border);
+    border-radius: 6px; color: var(--text); font-family: var(--sans); font-size: 0.88rem;
+  }
+  .field input:focus, .field textarea:focus { outline: none; border-color: var(--accent); }
+  .field textarea { min-height: 90px; resize: vertical; }
+  .field-hint { color: var(--muted); font-size: 0.75rem; margin-top: 0.3rem; }
+
+  .status-bar {
+    position: fixed; bottom: 0; left: 0; right: 0; padding: 1rem 5vw;
+    background: var(--surface); border-top: 1px solid var(--border);
+    display: none; align-items: center; justify-content: space-between; z-index: 50;
+  }
+  .status-bar.show { display: flex; }
+  .status-msg { font-size: 0.85rem; }
+  .status-msg.error { color: var(--danger); }
+  .status-msg.success { color: var(--accent2); }
+
+  .empty-state { color: var(--muted); text-align: center; padding: 2rem; font-size: 0.9rem; }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>لوحة التحكم</h1>
+  <div style="display:flex; gap:1rem; align-items:center;">
+    <a href="index.html">← رجوع للموقع</a>
+    <a href="#" id="logoutBtn" style="display:none;">تسجيل الخروج</a>
+  </div>
+</header>
+
+<!-- TOKEN GATE -->
+<div id="tokenGate">
+  <p style="color:var(--text); font-weight:700; font-size:1.1rem;">دخول لوحة التحكم</p>
+  <p>دخل GitHub Personal Access Token ديالك (Fine-grained، صلاحية Contents: Read and write على الريبو). كيتخزن غير فالمتصفح ديالك، ماكيتبعتش لحتى سيرفر آخر.</p>
+  <input type="password" id="tokenInput" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx" autocomplete="off" />
+  <div class="field" style="text-align:right;">
+    <label for="repoInput">اسم المستخدم/الريبو</label>
+    <input type="text" id="repoInput" placeholder="talibknz03/talibknz03.github.io" style="margin-bottom:0;" />
+  </div>
+  <br />
+  <button class="btn" id="unlockBtn">دخول</button>
+  <p id="gateError" class="status-msg error"></p>
+</div>
+
+<!-- MAIN PANEL -->
+<main id="mainPanel" style="display:none;">
+  <div class="tabs">
+    <button class="tab active" data-tab="skills">المهارات</button>
+    <button class="tab" data-tab="projects">المشاريع</button>
+    <button class="tab" data-tab="posts">التدوينات</button>
+  </div>
+
+  <!-- SKILLS TAB -->
+  <div class="tab-panel active" id="panel-skills">
+    <div id="skillsList"></div>
+    <div class="form-block">
+      <h3>➕ زيد مهارة جديدة</h3>
+      <div class="field">
+        <label>الأيقونة (إيموجي)</label>
+        <input type="text" id="s-icon" placeholder="⚙️" maxlength="4" />
+      </div>
+      <div class="field-row">
+        <div class="field"><label>الاسم (عربي)</label><input type="text" id="s-name-ar" /></div>
+        <div class="field"><label>Name (English)</label><input type="text" id="s-name-en" /></div>
+      </div>
+      <div class="field-row">
+        <div class="field"><label>المستوى (عربي)</label><input type="text" id="s-level-ar" placeholder="متقدم" /></div>
+        <div class="field"><label>Level (English)</label><input type="text" id="s-level-en" placeholder="Advanced" /></div>
+      </div>
+      <div class="field">
+        <label>النسبة % (0-100)</label>
+        <input type="number" id="s-percent" min="0" max="100" value="70" />
+      </div>
+      <button class="btn" id="addSkillBtn">زيد المهارة</button>
+    </div>
+  </div>
+
+  <!-- PROJECTS TAB -->
+  <div class="tab-panel" id="panel-projects">
+    <div id="projectsList"></div>
+    <div class="form-block">
+      <h3>➕ زيد مشروع جديد</h3>
+      <div class="field-row">
+        <div class="field"><label>الوسم (عربي)</label><input type="text" id="p-tag-ar" placeholder="تدريب ميداني" /></div>
+        <div class="field"><label>Tag (English)</label><input type="text" id="p-tag-en" placeholder="Internship" /></div>
+      </div>
+      <div class="field-row">
+        <div class="field"><label>العنوان (عربي)</label><input type="text" id="p-title-ar" /></div>
+        <div class="field"><label>Title (English)</label><input type="text" id="p-title-en" /></div>
+      </div>
+      <div class="field-row">
+        <div class="field"><label>الوصف (عربي)</label><textarea id="p-desc-ar"></textarea></div>
+        <div class="field"><label>Description (English)</label><textarea id="p-desc-en"></textarea></div>
+      </div>
+      <button class="btn" id="addProjectBtn">زيد المشروع</button>
+    </div>
+  </div>
+
+  <!-- POSTS TAB -->
+  <div class="tab-panel" id="panel-posts">
+    <div id="postsList"></div>
+    <div class="form-block">
+      <h3>➕ زيد تدوينة جديدة</h3>
+      <div class="field">
+        <label>التاريخ</label>
+        <input type="date" id="b-date" />
+      </div>
+      <div class="field-row">
+        <div class="field"><label>العنوان (عربي)</label><input type="text" id="b-title-ar" /></div>
+        <div class="field"><label>Title (English)</label><input type="text" id="b-title-en" /></div>
+      </div>
+      <div class="field-row">
+        <div class="field"><label>مقتطف قصير (عربي)</label><textarea id="b-excerpt-ar" placeholder="جملة أو جوج كيبانو فكارت التدوينة"></textarea></div>
+        <div class="field"><label>Excerpt (English)</label><textarea id="b-excerpt-en"></textarea></div>
+      </div>
+      <div class="field-row">
+        <div class="field"><label>المحتوى الكامل (عربي)</label><textarea id="b-content-ar" style="min-height:140px;"></textarea></div>
+        <div class="field"><label>Full Content (English)</label><textarea id="b-content-en" style="min-height:140px;"></textarea></div>
+      </div>
+      <button class="btn" id="addPostBtn">زيد التدوينة</button>
+    </div>
+  </div>
+</main>
+
+<div class="status-bar" id="statusBar">
+  <span class="status-msg" id="statusMsg"></span>
+  <button class="btn btn-small btn-outline" id="statusClose">إغلاق</button>
+</div>
+
+<script>
+  const LS_TOKEN_KEY = 'gh_admin_token';
+  const LS_REPO_KEY = 'gh_admin_repo';
+  const DATA_PATH = 'data.json';
+
+  let TOKEN = localStorage.getItem(LS_TOKEN_KEY) || '';
+  let REPO = localStorage.getItem(LS_REPO_KEY) || '';
+  let currentSha = null;
+  let siteData = { skills: [], projects: [], posts: [] };
+
+  const tokenGate = document.getElementById('tokenGate');
+  const mainPanel = document.getElementById('mainPanel');
+  const logoutBtn = document.getElementById('logoutBtn');
+  const statusBar = document.getElementById('statusBar');
+  const statusMsg = document.getElementById('statusMsg');
+
+  function showStatus(msg, type) {
+    statusMsg.textContent = msg;
+    statusMsg.className = 'status-msg' + (type ? ' ' + type : '');
+    statusBar.classList.add('show');
+  }
+  document.getElementById('statusClose').addEventListener('click', () => statusBar.classList.remove('show'));
+
+  async function ghFetch(path, options = {}) {
+    const url = `https://api.github.com/repos/${REPO}/contents/${path}`;
+    const res = await fetch(url, {
+      ...options,
+      headers: {
+        'Authorization': `token ${TOKEN}`,
+        'Accept': 'application/vnd.github+json',
+        ...(options.headers || {})
+      }
+    });
+    return res;
+  }
+
+  function b64EncodeUnicode(str) {
+    return btoa(unescape(encodeURIComponent(str)));
+  }
+  function b64DecodeUnicode(str) {
+    return decodeURIComponent(escape(atob(str)));
+  }
+
+  async function loadData() {
+    try {
+      const res = await ghFetch(DATA_PATH);
+      if (!res.ok) throw new Error('HTTP ' + res.status);
+      const json = await res.json();
+      currentSha = json.sha;
+      siteData = JSON.parse(b64DecodeUnicode(json.content));
+      renderAll();
+      return true;
+    } catch (err) {
+      document.getElementById('gateError').textContent = 'تعذر الوصول: تأكد من التوكن واسم الريبو (' + err.message + ')';
+      return false;
+    }
+  }
+
+  async function saveData(commitMessage) {
+    showStatus('جارٍ الحفظ...', '');
+    try {
+      const res = await ghFetch(DATA_PATH, {
+        method: 'PUT',
+        body: JSON.stringify({
+          message: commitMessage || 'تحديث المحتوى عبر لوحة التحكم',
+          content: b64EncodeUnicode(JSON.stringify(siteData, null, 2)),
+          sha: currentSha
+        })
+      });
+      if (!res.ok) {
+        const err = await res.json();
+        throw new Error(err.message || ('HTTP ' + res.status));
+      }
+      const json = await res.json();
+      currentSha = json.content.sha;
+      showStatus('✅ تم الحفظ بنجاح فـ GitHub. الموقع غادي يتحدث فدقيقة أو جوج.', 'success');
+    } catch (err) {
+      showStatus('⚠️ خطأ فالحفظ: ' + err.message, 'error');
+    }
+  }
+
+  // ─── Unlock ───
+  document.getElementById('unlockBtn').addEventListener('click', async () => {
+    const t = document.getElementById('tokenInput').value.trim();
+    const r = document.getElementById('repoInput').value.trim();
+    if (!t || !r) {
+      document.getElementById('gateError').textContent = 'خاصك تعمر التوكن واسم الريبو بجوج.';
+      return;
+    }
+    TOKEN = t; REPO = r;
+    document.getElementById('gateError').textContent = '';
+    const ok = await loadData();
+    if (ok) {
+      localStorage.setItem(LS_TOKEN_KEY, TOKEN);
+      localStorage.setItem(LS_REPO_KEY, REPO);
+      tokenGate.style.display = 'none';
+      mainPanel.style.display = 'block';
+      logoutBtn.style.display = 'inline';
+    }
+  });
+
+  logoutBtn.addEventListener('click', (e) => {
+    e.preventDefault();
+    localStorage.removeItem(LS_TOKEN_KEY);
+    localStorage.removeItem(LS_REPO_KEY);
+    location.reload();
+  });
+
+  // Auto-unlock if token already saved
+  (async function autoUnlock() {
+    if (TOKEN && REPO) {
+      document.getElementById('tokenInput').value = TOKEN;
+      document.getElementById('repoInput').value = REPO;
+      const ok = await loadData();
+      if (ok) {
+        tokenGate.style.display = 'none';
+        mainPanel.style.display = 'block';
+        logoutBtn.style.display = 'inline';
+      }
+    }
+  })();
+
+  // ─── Tabs ───
+  document.querySelectorAll('.tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+      document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+      document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+      tab.classList.add('active');
+      document.getElementById('panel-' + tab.dataset.tab).classList.add('active');
+    });
+  });
+
+  // ─── Render lists ───
+  function renderAll() {
+    renderSkillsList();
+    renderProjectsList();
+    renderPostsList();
+  }
+
+  function renderSkillsList() {
+    const el = document.getElementById('skillsList');
+    if (!siteData.skills.length) { el.innerHTML = '<div class="empty-state">ماكاينش مهارات بعد.</div>'; return; }
+    el.innerHTML = siteData.skills.map((s, i) => `
+      <div class="item-card">
+        <div class="item-card-header">
+          <div>
+            <div class="item-card-title">${s.icon} ${s.name_ar}</div>
+            <div class="item-card-sub">${s.level_ar} — ${s.percent}%</div>
+          </div>
+          <div class="item-actions">
+            <button class="btn btn-danger" onclick="deleteSkill(${i})">حذف</button>
+          </div>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  function renderProjectsList() {
+    const el = document.getElementById('projectsList');
+    if (!siteData.projects.length) { el.innerHTML = '<div class="empty-state">ماكاينش مشاريع بعد.</div>'; return; }
+    el.innerHTML = siteData.projects.map((p, i) => `
+      <div class="item-card">
+        <div class="item-card-header">
+          <div>
+            <div class="item-card-title">${p.title_ar}</div>
+            <div class="item-card-sub">${p.tag_ar}</div>
+          </div>
+          <div class="item-actions">
+            <button class="btn btn-danger" onclick="deleteProject(${i})">حذف</button>
+          </div>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  function renderPostsList() {
+    const el = document.getElementById('postsList');
+    if (!siteData.posts.length) { el.innerHTML = '<div class="empty-state">ماكاينش تدوينات بعد.</div>'; return; }
+    el.innerHTML = siteData.posts.map((p, i) => `
+      <div class="item-card">
+        <div class="item-card-header">
+          <div>
+            <div class="item-card-title">${p.title_ar}</div>
+            <div class="item-card-sub">${p.date}</div>
+          </div>
+          <div class="item-actions">
+            <button class="btn btn-danger" onclick="deletePost(${i})">حذف</button>
+          </div>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  // ─── Delete handlers ───
+  window.deleteSkill = function (i) {
+    if (!confirm('متأكد بغيتي تحيد هاد المهارة؟')) return;
+    siteData.skills.splice(i, 1);
+    renderSkillsList();
+    saveData('حذف مهارة عبر لوحة التحكم');
+  };
+  window.deleteProject = function (i) {
+    if (!confirm('متأكد بغيتي تحيد هاد المشروع؟')) return;
+    siteData.projects.splice(i, 1);
+    renderProjectsList();
+    saveData('حذف مشروع عبر لوحة التحكم');
+  };
+  window.deletePost = function (i) {
+    if (!confirm('متأكد بغيتي تحيد هاد التدوينة؟')) return;
+    siteData.posts.splice(i, 1);
+    renderPostsList();
+    saveData('حذف تدوينة عبر لوحة التحكم');
+  };
+
+  // ─── Add handlers ───
+  document.getElementById('addSkillBtn').addEventListener('click', () => {
+    const icon = document.getElementById('s-icon').value.trim() || '⭐';
+    const nameAr = document.getElementById('s-name-ar').value.trim();
+    const nameEn = document.getElementById('s-name-en').value.trim();
+    const levelAr = document.getElementById('s-level-ar').value.trim();
+    const levelEn = document.getElementById('s-level-en').value.trim();
+    const percent = parseInt(document.getElementById('s-percent').value, 10) || 50;
+    if (!nameAr || !nameEn) { showStatus('⚠️ خاصك تعمر الاسم بالعربية والإنجليزية.', 'error'); return; }
+    siteData.skills.push({ icon, name_ar: nameAr, name_en: nameEn, level_ar: levelAr || 'متوسط', level_en: levelEn || 'Intermediate', percent });
+    renderSkillsList();
+    saveData('إضافة مهارة عبر لوحة التحكم');
+    ['s-icon','s-name-ar','s-name-en','s-level-ar','s-level-en'].forEach(id => document.getElementById(id).value = '');
+    document.getElementById('s-percent').value = 70;
+  });
+
+  document.getElementById('addProjectBtn').addEventListener('click', () => {
+    const tagAr = document.getElementById('p-tag-ar').value.trim();
+    const tagEn = document.getElementById('p-tag-en').value.trim();
+    const titleAr = document.getElementById('p-title-ar').value.trim();
+    const titleEn = document.getElementById('p-title-en').value.trim();
+    const descAr = document.getElementById('p-desc-ar').value.trim();
+    const descEn = document.getElementById('p-desc-en').value.trim();
+    if (!titleAr || !titleEn) { showStatus('⚠️ خاصك تعمر العنوان بالعربية والإنجليزية.', 'error'); return; }
+    siteData.projects.push({ tag_ar: tagAr, tag_en: tagEn, title_ar: titleAr, title_en: titleEn, desc_ar: descAr, desc_en: descEn });
+    renderProjectsList();
+    saveData('إضافة مشروع عبر لوحة التحكم');
+    ['p-tag-ar','p-tag-en','p-title-ar','p-title-en','p-desc-ar','p-desc-en'].forEach(id => document.getElementById(id).value = '');
+  });
+
+  document.getElementById('addPostBtn').addEventListener('click', () => {
+    const date = document.getElementById('b-date').value || new Date().toISOString().slice(0, 10);
+    const titleAr = document.getElementById('b-title-ar').value.trim();
+    const titleEn = document.getElementById('b-title-en').value.trim();
+    const excerptAr = document.getElementById('b-excerpt-ar').value.trim();
+    const excerptEn = document.getElementById('b-excerpt-en').value.trim();
+    const contentAr = document.getElementById('b-content-ar').value.trim();
+    const contentEn = document.getElementById('b-content-en').value.trim();
+    if (!titleAr || !titleEn || !contentAr) { showStatus('⚠️ خاصك على الأقل العنوان (بجوج اللغات) والمحتوى بالعربية.', 'error'); return; }
+    const id = 'post-' + Date.now();
+    siteData.posts.unshift({ id, date, title_ar: titleAr, title_en: titleEn, excerpt_ar: excerptAr, excerpt_en: excerptEn, content_ar: contentAr, content_en: contentEn });
+    renderPostsList();
+    saveData('إضافة تدوينة عبر لوحة التحكم');
+    ['b-title-ar','b-title-en','b-excerpt-ar','b-excerpt-en','b-content-ar','b-content-en'].forEach(id => document.getElementById(id).value = '');
+    document.getElementById('b-date').value = '';
+  });
+</script>
+</body>
+</html>
