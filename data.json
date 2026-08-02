@@ -35,16 +35,5 @@
       "desc_en": "Field internship in the régulation department, working with temperature and pressure sensors, industrial actuators, and programmable logic controllers (PLCs)."
     }
   ],
-  "posts": [
-    {
-      "id": "post-1",
-      "date": "2026-08-02",
-      "title_ar": "مرحباً بكم في مدونتي",
-      "title_en": "Welcome to My Blog",
-      "excerpt_ar": "أول تدوينة فالمدونة — نبذة عن المسار ديالي وشنو غادي تلقاو هنا مستقبلاً.",
-      "excerpt_en": "The first post on the blog — a quick note about my journey and what you'll find here going forward.",
-      "content_ar": "مرحباً بيكم فالمدونة ديالي! هنا غادي نشارك تجاربي فمجال الأتمتة الصناعية، مشاريعي التقنية والإبداعية، وكل جديد كيوقع معايا فالمسار المهني. تابعوني باش توصلكم كل تدوينة جديدة.",
-      "content_en": "Welcome to my blog! Here I'll be sharing my experiences in industrial automation, my technical and creative projects, and updates from my professional journey. Follow along for new posts."
-    }
-  ]
+  "posts": []
 }
