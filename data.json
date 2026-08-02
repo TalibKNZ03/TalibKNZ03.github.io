@@ -33,14 +33,6 @@
       "title_en": "Regulation Department — OCP Group",
       "desc_ar": "تدريب ميداني بمصلحة régulation، اشتغلت خلاله على أجهزة استشعار درجة الحرارة والضغط، المشغلات الصناعية، والمتحكمات المنطقية القابلة للبرمجة PLC.",
       "desc_en": "Field internship in the régulation department, working with temperature and pressure sensors, industrial actuators, and programmable logic controllers (PLCs)."
-    },
-    {
-      "tag_ar": "تطوير ويب",
-      "tag_en": "Web Development",
-      "title_ar": "مواقع ويب عربية",
-      "title_en": "Arabic Websites",
-      "desc_ar": "تصميم وبرمجة موقعين كاملين (بورتفوليو شخصي ومدونة رياضية) باستعمال HTML وCSS وJavaScript من الصفر.",
-      "desc_en": "Designed and coded two complete websites (a personal portfolio and a sports blog) using HTML, CSS, and JavaScript from scratch."
     }
   ],
   "posts": [
