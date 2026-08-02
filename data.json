@@ -35,5 +35,16 @@
       "desc_en": "Field internship in the régulation department, working with temperature and pressure sensors, industrial actuators, and programmable logic controllers (PLCs)."
     }
   ],
-  "posts": []
+  "posts": [
+    {
+      "id": "post-1785699567863",
+      "date": "2026-08-02",
+      "title_ar": "أول تدوينة",
+      "title_en": "First of",
+      "excerpt_ar": "أول تدوينة",
+      "excerpt_en": "First",
+      "content_ar": "بسمك اللهم يسر",
+      "content_en": "In the name of allah, make it easy"
+    }
+  ]
 }
