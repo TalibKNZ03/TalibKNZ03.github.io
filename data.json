@@ -23,14 +23,6 @@
       "level_ar": "متوسط",
       "level_en": "Intermediate",
       "percent": 70
-    },
-    {
-      "icon": "💻",
-      "name_ar": "تطوير الويب (HTML/CSS/JS)",
-      "name_en": "Web Development (HTML/CSS/JS)",
-      "level_ar": "متوسط",
-      "level_en": "Intermediate",
-      "percent": 65
     }
   ],
   "projects": [
