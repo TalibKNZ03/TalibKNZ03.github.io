@@ -484,6 +484,151 @@
       margin-bottom: 0.6rem;
     }
     .post-modal .post-modal-body { color: var(--muted); margin-top: 1rem; }
+    .post-modal-image { width: 100%; max-height: 260px; object-fit: cover; border-radius: 10px; margin-bottom: 1rem; }
+
+    /* ─── INLINE BLOG ADMIN ─── */
+    .blog-heading-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    .blog-add-btn {
+      display: none;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.6rem 1.2rem;
+      border-radius: 8px;
+      border: 1px dashed var(--accent);
+      background: rgba(123,92,250,0.08);
+      color: var(--accent);
+      font-family: var(--sans);
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .blog-add-btn.visible { display: inline-flex; }
+    .blog-add-btn:hover { background: rgba(123,92,250,0.16); }
+
+    .blog-card { position: relative; }
+    .blog-card-image {
+      width: 100%; height: 150px; object-fit: cover;
+      border-radius: 8px; margin-bottom: 1rem;
+    }
+    .post-menu-btn {
+      display: none;
+      position: absolute;
+      top: 0.8rem; left: 0.8rem;
+      width: 28px; height: 28px;
+      border-radius: 50%;
+      background: rgba(13,13,15,0.7);
+      border: 1px solid var(--border);
+      color: var(--text);
+      cursor: pointer;
+      font-size: 0.9rem;
+      line-height: 1;
+      z-index: 5;
+    }
+    .post-menu-btn.visible { display: block; }
+    .post-menu-btn:hover { border-color: var(--accent); color: var(--accent); }
+    .post-menu-dropdown {
+      display: none;
+      position: absolute;
+      top: 2.6rem; left: 0.8rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      overflow: hidden;
+      z-index: 6;
+      min-width: 120px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+    }
+    .post-menu-dropdown.open { display: block; }
+    .post-menu-dropdown button {
+      display: block;
+      width: 100%;
+      padding: 0.6rem 1rem;
+      background: transparent;
+      border: none;
+      color: var(--text);
+      font-family: var(--sans);
+      font-size: 0.82rem;
+      text-align: right;
+      cursor: pointer;
+    }
+    .post-menu-dropdown button:hover { background: rgba(123,92,250,0.12); color: var(--accent); }
+    .post-menu-dropdown button.danger:hover { background: rgba(240,90,90,0.12); color: #f05a5a; }
+
+    .post-form-overlay {
+      display: none;
+      position: fixed; inset: 0;
+      background: rgba(0,0,0,0.75);
+      backdrop-filter: blur(4px);
+      z-index: 400;
+      align-items: center;
+      justify-content: center;
+      padding: 5vw;
+      overflow-y: auto;
+    }
+    .post-form-overlay.open { display: flex; }
+    .post-form {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 2rem;
+      max-width: 640px;
+      width: 100%;
+      max-height: 88vh;
+      overflow-y: auto;
+      position: relative;
+    }
+    .post-form h3 { margin-bottom: 1.2rem; color: var(--accent); }
+    .post-form .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    @media (max-width: 640px) { .post-form .field-row { grid-template-columns: 1fr; } }
+    .post-form .field { margin-bottom: 1rem; }
+    .post-form label { display: block; font-size: 0.78rem; color: var(--muted); margin-bottom: 0.35rem; }
+    .post-form input, .post-form textarea {
+      width: 100%; padding: 0.65rem; background: var(--bg); border: 1px solid var(--border);
+      border-radius: 6px; color: var(--text); font-family: var(--sans); font-size: 0.85rem;
+    }
+    .post-form textarea { min-height: 80px; resize: vertical; }
+    .post-form input:focus, .post-form textarea:focus { outline: none; border-color: var(--accent); }
+    .post-form-close {
+      position: absolute; top: 1rem; left: 1rem;
+      width: 30px; height: 30px; border-radius: 50%;
+      background: transparent; border: 1px solid var(--border); color: var(--muted); cursor: pointer;
+    }
+    .post-form-close:hover { border-color: var(--accent); color: var(--accent); }
+    .post-form-preview { max-width: 140px; border-radius: 8px; margin-top: 0.5rem; display: none; }
+    .post-form-preview.visible { display: block; }
+    .post-form-actions { display: flex; gap: 0.8rem; margin-top: 1.2rem; }
+    .post-form-status { font-size: 0.8rem; margin-top: 0.6rem; }
+    .post-form-status.error { color: #f05a5a; }
+    .post-form-status.success { color: var(--accent2); }
+
+    /* Edit-mode unlock (footer) */
+    .edit-mode-toggle {
+      background: transparent; border: none; color: var(--muted);
+      cursor: pointer; font-size: 0.9rem; opacity: 0.4; transition: opacity 0.2s;
+    }
+    .edit-mode-toggle:hover { opacity: 1; }
+    .edit-mode-toggle.active { opacity: 1; color: var(--accent); }
+
+    .lock-modal-overlay {
+      display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.75);
+      z-index: 400; align-items: center; justify-content: center; padding: 5vw;
+    }
+    .lock-modal-overlay.open { display: flex; }
+    .lock-modal {
+      background: var(--surface); border: 1px solid var(--border); border-radius: 14px;
+      padding: 2rem; max-width: 420px; width: 100%; text-align: center;
+    }
+    .lock-modal p { color: var(--muted); font-size: 0.85rem; margin: 0.8rem 0; }
+    .lock-modal input {
+      width: 100%; padding: 0.7rem; background: var(--bg); border: 1px solid var(--border);
+      border-radius: 6px; color: var(--text); font-family: var(--mono); font-size: 0.82rem; margin-bottom: 0.8rem;
+    }
 
     /* ─── CONTACT ─── */
     #contact { background: var(--surface); }
@@ -748,21 +893,74 @@
 
   <!-- BLOG -->
   <section id="blog">
-    <div class="reveal">
-      <p class="section-label" data-en="Blog">المدونة</p>
-      <h2 data-en="Latest Posts">آخر التدوينات</h2>
-      <div class="section-line"></div>
+    <div class="reveal blog-heading-row">
+      <div>
+        <p class="section-label" data-en="Blog">المدونة</p>
+        <h2 data-en="Latest Posts">آخر التدوينات</h2>
+        <div class="section-line"></div>
+      </div>
+      <button class="blog-add-btn" id="blogAddBtn" type="button">+ زيد تدوينة</button>
     </div>
     <div class="blog-grid reveal reveal-stagger" id="blogGrid"></div>
   </section>
 
-  <!-- POST MODAL -->
+  <!-- POST MODAL (read view) -->
   <div class="post-modal-overlay" id="postModalOverlay">
     <div class="post-modal">
       <button class="post-modal-close" id="postModalClose" aria-label="إغلاق" data-en-aria="Close">✕</button>
+      <img class="post-modal-image" id="postModalImage" style="display:none;" alt="" />
       <p class="post-modal-date" id="postModalDate"></p>
       <h3 id="postModalTitle"></h3>
       <div class="post-modal-body" id="postModalBody"></div>
+    </div>
+  </div>
+
+  <!-- POST FORM MODAL (add / edit) -->
+  <div class="post-form-overlay" id="postFormOverlay">
+    <div class="post-form">
+      <button class="post-form-close" id="postFormClose" type="button">✕</button>
+      <h3 id="postFormHeading">➕ زيد تدوينة جديدة</h3>
+      <div class="field">
+        <label>الصورة (اختياري)</label>
+        <input type="file" id="pf-image" accept="image/*" />
+        <img class="post-form-preview" id="pf-image-preview" />
+      </div>
+      <div class="field">
+        <label>التاريخ</label>
+        <input type="date" id="pf-date" />
+      </div>
+      <div class="field-row">
+        <div class="field"><label>العنوان (عربي) *</label><input type="text" id="pf-title-ar" /></div>
+        <div class="field"><label>Title (English)</label><input type="text" id="pf-title-en" /></div>
+      </div>
+      <div class="field-row">
+        <div class="field"><label>مقتطف قصير (عربي)</label><textarea id="pf-excerpt-ar"></textarea></div>
+        <div class="field"><label>Excerpt (English)</label><textarea id="pf-excerpt-en"></textarea></div>
+      </div>
+      <div class="field-row">
+        <div class="field"><label>المحتوى الكامل (عربي) *</label><textarea id="pf-content-ar" style="min-height:130px;"></textarea></div>
+        <div class="field"><label>Full Content (English)</label><textarea id="pf-content-en" style="min-height:130px;"></textarea></div>
+      </div>
+      <div class="post-form-actions">
+        <button class="btn btn-primary" id="pf-save" type="button">حفظ</button>
+        <button class="btn btn-outline" id="postFormCancel" type="button">إلغاء</button>
+      </div>
+      <div class="post-form-status" id="pf-status"></div>
+    </div>
+  </div>
+
+  <!-- EDIT-MODE LOCK MODAL -->
+  <div class="lock-modal-overlay" id="lockModalOverlay">
+    <div class="lock-modal">
+      <p style="color:var(--text); font-weight:700;">تفعيل وضع التعديل</p>
+      <p>دخل GitHub Personal Access Token واسم الريبو باش تقدر تزيد/تبدل/تحيد التدوينات مباشرة من هنا.</p>
+      <input type="password" id="lockTokenInput" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx" autocomplete="off" />
+      <input type="text" id="lockRepoInput" placeholder="talibknz03/TalibKNZ03.github.io" />
+      <div style="display:flex; gap:0.8rem; justify-content:center;">
+        <button class="btn btn-primary" id="lockUnlockBtn" type="button">تفعيل</button>
+        <button class="btn btn-outline" id="lockCancelBtn" type="button">إلغاء</button>
+      </div>
+      <p class="post-form-status error" id="lockError"></p>
     </div>
   </div>
 
@@ -842,7 +1040,10 @@
       </svg>
       <span data-en="My Blog">مدونتي</span>
     </div>
-    <div data-en="Made with ♥ — All rights reserved © 2025">صُمّم بـ ♥ — جميع الحقوق محفوظة © 2025</div>
+    <div style="display:flex; align-items:center; gap:1rem;">
+      <span data-en="Made with ♥ — All rights reserved © 2025">صُمّم بـ ♥ — جميع الحقوق محفوظة © 2025</span>
+      <button class="edit-mode-toggle" id="editModeToggle" type="button" title="وضع التعديل">🔒</button>
+    </div>
   </footer>
 
   <button id="backToTop" aria-label="العودة للأعلى" data-en-aria="Back to top" type="button">
@@ -926,28 +1127,61 @@
       }
       grid.innerHTML = siteData.posts.map(post => `
         <div class="blog-card stagger-item" data-post-id="${post.id}">
+          ${editMode ? `
+            <button class="post-menu-btn visible" data-menu-id="${post.id}" type="button">⋯</button>
+            <div class="post-menu-dropdown" data-dropdown-id="${post.id}">
+              <button type="button" data-action="edit" data-id="${post.id}">✏️ تعديل</button>
+              <button type="button" class="danger" data-action="delete" data-id="${post.id}">🗑️ حذف</button>
+            </div>
+          ` : ''}
+          ${post.image ? `<img class="blog-card-image" src="${post.image}" alt="" />` : ''}
           <div class="blog-date">${post.date}</div>
-          <div class="blog-title">${lang === 'en' ? post.title_en : post.title_ar}</div>
-          <div class="blog-excerpt">${lang === 'en' ? post.excerpt_en : post.excerpt_ar}</div>
+          <div class="blog-title">${lang === 'en' ? (post.title_en || post.title_ar) : post.title_ar}</div>
+          <div class="blog-excerpt">${lang === 'en' ? (post.excerpt_en || post.excerpt_ar) : post.excerpt_ar}</div>
         </div>
       `).join('');
+
       grid.querySelectorAll('.blog-card').forEach(card => {
-        card.addEventListener('click', () => openPost(card.dataset.postId));
+        card.addEventListener('click', (e) => {
+          if (e.target.closest('.post-menu-btn') || e.target.closest('.post-menu-dropdown')) return;
+          openPost(card.dataset.postId);
+        });
+      });
+      grid.querySelectorAll('.post-menu-btn').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          const dd = grid.querySelector(`.post-menu-dropdown[data-dropdown-id="${btn.dataset.menuId}"]`);
+          grid.querySelectorAll('.post-menu-dropdown.open').forEach(o => { if (o !== dd) o.classList.remove('open'); });
+          dd.classList.toggle('open');
+        });
+      });
+      grid.querySelectorAll('[data-action="edit"]').forEach(btn => {
+        btn.addEventListener('click', (e) => { e.stopPropagation(); openPostForm(btn.dataset.id); });
+      });
+      grid.querySelectorAll('[data-action="delete"]').forEach(btn => {
+        btn.addEventListener('click', (e) => { e.stopPropagation(); deletePost(btn.dataset.id); });
       });
     }
+    document.addEventListener('click', () => {
+      document.querySelectorAll('.post-menu-dropdown.open').forEach(o => o.classList.remove('open'));
+    });
 
     function renderDynamicContent(lang) {
       renderSkills(lang);
       renderProjects(lang);
       renderBlog(lang);
+      renderAddButtonVisibility();
     }
 
     function openPost(id) {
       const post = siteData.posts.find(p => p.id === id);
       if (!post) return;
+      const imgEl = document.getElementById('postModalImage');
+      if (post.image) { imgEl.src = post.image; imgEl.style.display = 'block'; }
+      else { imgEl.style.display = 'none'; }
       document.getElementById('postModalDate').textContent = post.date;
-      document.getElementById('postModalTitle').textContent = currentLang === 'en' ? post.title_en : post.title_ar;
-      document.getElementById('postModalBody').textContent = currentLang === 'en' ? post.content_en : post.content_ar;
+      document.getElementById('postModalTitle').textContent = currentLang === 'en' ? (post.title_en || post.title_ar) : post.title_ar;
+      document.getElementById('postModalBody').textContent = currentLang === 'en' ? (post.content_en || post.content_ar) : post.content_ar;
       document.getElementById('postModalOverlay').classList.add('open');
     }
     document.getElementById('postModalClose').addEventListener('click', () => {
@@ -968,6 +1202,243 @@
         document.getElementById('projectsGrid').innerHTML = '';
         document.getElementById('blogGrid').innerHTML = '<div class="blog-empty">تعذر تحميل المحتوى.</div>';
       });
+
+    // ─── Inline edit mode (GitHub API) ───
+    const LS_TOKEN_KEY = 'gh_admin_token';
+    const LS_REPO_KEY = 'gh_admin_repo';
+    let GH_TOKEN = localStorage.getItem(LS_TOKEN_KEY) || '';
+    let GH_REPO = localStorage.getItem(LS_REPO_KEY) || '';
+    let editMode = false;
+    let currentSha = null;
+    let editingPostId = null;
+
+    const editModeToggle = document.getElementById('editModeToggle');
+    const lockModalOverlay = document.getElementById('lockModalOverlay');
+    const blogAddBtn = document.getElementById('blogAddBtn');
+
+    function renderAddButtonVisibility() {
+      blogAddBtn.classList.toggle('visible', editMode);
+    }
+
+    function b64EncodeUnicode(str) { return btoa(unescape(encodeURIComponent(str))); }
+    function b64DecodeUnicode(str) { return decodeURIComponent(escape(atob(str))); }
+
+    async function ghFetch(path, options = {}) {
+      const url = `https://api.github.com/repos/${GH_REPO}/contents/${path}`;
+      return fetch(url, {
+        ...options,
+        headers: {
+          'Authorization': `token ${GH_TOKEN}`,
+          'Accept': 'application/vnd.github+json',
+          ...(options.headers || {})
+        }
+      });
+    }
+
+    async function refreshShaAndData() {
+      const res = await ghFetch('data.json');
+      if (!res.ok) throw new Error('HTTP ' + res.status);
+      const json = await res.json();
+      currentSha = json.sha;
+      siteData = JSON.parse(b64DecodeUnicode(json.content));
+    }
+
+    async function saveSiteData(commitMessage) {
+      const res = await ghFetch('data.json', {
+        method: 'PUT',
+        body: JSON.stringify({
+          message: commitMessage || 'تحديث المحتوى من الموقع',
+          content: b64EncodeUnicode(JSON.stringify(siteData, null, 2)),
+          sha: currentSha
+        })
+      });
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({}));
+        throw new Error(err.message || ('HTTP ' + res.status));
+      }
+      const json = await res.json();
+      currentSha = json.content.sha;
+    }
+
+    async function uploadImage(file) {
+      const buffer = await file.arrayBuffer();
+      const bytes = new Uint8Array(buffer);
+      let binary = '';
+      bytes.forEach(b => binary += String.fromCharCode(b));
+      const base64 = btoa(binary);
+      const safeName = Date.now() + '-' + file.name.replace(/[^a-zA-Z0-9.\-_]/g, '');
+      const path = `images/${safeName}`;
+      const res = await ghFetch(path, {
+        method: 'PUT',
+        body: JSON.stringify({
+          message: 'رفع صورة تدوينة',
+          content: base64
+        })
+      });
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({}));
+        throw new Error(err.message || ('HTTP ' + res.status));
+      }
+      const json = await res.json();
+      return json.content.download_url;
+    }
+
+    // ─── Edit mode toggle / lock modal ───
+    editModeToggle.addEventListener('click', () => {
+      if (!GH_TOKEN || !GH_REPO) {
+        document.getElementById('lockError').textContent = '';
+        lockModalOverlay.classList.add('open');
+        return;
+      }
+      editMode = !editMode;
+      editModeToggle.textContent = editMode ? '🔓' : '🔒';
+      editModeToggle.classList.toggle('active', editMode);
+      renderDynamicContent(currentLang);
+    });
+
+    document.getElementById('lockCancelBtn').addEventListener('click', () => {
+      lockModalOverlay.classList.remove('open');
+    });
+
+    document.getElementById('lockUnlockBtn').addEventListener('click', async () => {
+      const t = document.getElementById('lockTokenInput').value.trim();
+      const r = document.getElementById('lockRepoInput').value.trim();
+      const errEl = document.getElementById('lockError');
+      if (!t || !r) { errEl.textContent = 'خاصك تعمر التوكن واسم الريبو بجوج.'; return; }
+      GH_TOKEN = t; GH_REPO = r;
+      try {
+        await refreshShaAndData();
+        localStorage.setItem(LS_TOKEN_KEY, GH_TOKEN);
+        localStorage.setItem(LS_REPO_KEY, GH_REPO);
+        editMode = true;
+        editModeToggle.textContent = '🔓';
+        editModeToggle.classList.add('active');
+        lockModalOverlay.classList.remove('open');
+        renderDynamicContent(currentLang);
+      } catch (err) {
+        errEl.textContent = 'تعذر الدخول: تأكد من التوكن واسم الريبو (' + err.message + ')';
+      }
+    });
+
+    // ─── Post form (add / edit) ───
+    const postFormOverlay = document.getElementById('postFormOverlay');
+    const pfImageInput = document.getElementById('pf-image');
+    const pfImagePreview = document.getElementById('pf-image-preview');
+    let pendingImageFile = null;
+    let pendingImageUrl = null;
+
+    function openPostForm(id) {
+      editingPostId = id || null;
+      pendingImageFile = null;
+      document.getElementById('pf-status').textContent = '';
+      document.getElementById('pf-status').className = 'post-form-status';
+      pfImagePreview.classList.remove('visible');
+      pfImageInput.value = '';
+
+      if (editingPostId) {
+        const post = siteData.posts.find(p => p.id === editingPostId);
+        document.getElementById('postFormHeading').textContent = '✏️ تعديل التدوينة';
+        document.getElementById('pf-date').value = post.date || '';
+        document.getElementById('pf-title-ar').value = post.title_ar || '';
+        document.getElementById('pf-title-en').value = post.title_en || '';
+        document.getElementById('pf-excerpt-ar').value = post.excerpt_ar || '';
+        document.getElementById('pf-excerpt-en').value = post.excerpt_en || '';
+        document.getElementById('pf-content-ar').value = post.content_ar || '';
+        document.getElementById('pf-content-en').value = post.content_en || '';
+        pendingImageUrl = post.image || null;
+        if (post.image) { pfImagePreview.src = post.image; pfImagePreview.classList.add('visible'); }
+      } else {
+        document.getElementById('postFormHeading').textContent = '➕ زيد تدوينة جديدة';
+        ['pf-date','pf-title-ar','pf-title-en','pf-excerpt-ar','pf-excerpt-en','pf-content-ar','pf-content-en'].forEach(id => document.getElementById(id).value = '');
+        pendingImageUrl = null;
+      }
+      postFormOverlay.classList.add('open');
+    }
+
+    blogAddBtn.addEventListener('click', () => openPostForm(null));
+    document.getElementById('postFormClose').addEventListener('click', () => postFormOverlay.classList.remove('open'));
+    document.getElementById('postFormCancel').addEventListener('click', () => postFormOverlay.classList.remove('open'));
+    postFormOverlay.addEventListener('click', (e) => { if (e.target.id === 'postFormOverlay') postFormOverlay.classList.remove('open'); });
+
+    pfImageInput.addEventListener('change', () => {
+      const file = pfImageInput.files[0];
+      if (!file) return;
+      pendingImageFile = file;
+      const reader = new FileReader();
+      reader.onload = () => { pfImagePreview.src = reader.result; pfImagePreview.classList.add('visible'); };
+      reader.readAsDataURL(file);
+    });
+
+    document.getElementById('pf-save').addEventListener('click', async () => {
+      const statusEl = document.getElementById('pf-status');
+      const titleAr = document.getElementById('pf-title-ar').value.trim();
+      const titleEn = document.getElementById('pf-title-en').value.trim();
+      const excerptAr = document.getElementById('pf-excerpt-ar').value.trim();
+      const excerptEn = document.getElementById('pf-excerpt-en').value.trim();
+      const contentAr = document.getElementById('pf-content-ar').value.trim();
+      const contentEn = document.getElementById('pf-content-en').value.trim();
+      const date = document.getElementById('pf-date').value || new Date().toISOString().slice(0, 10);
+
+      if (!titleAr || !contentAr) {
+        statusEl.textContent = '⚠️ خاصك على الأقل العنوان والمحتوى بالعربية.';
+        statusEl.className = 'post-form-status error';
+        return;
+      }
+
+      statusEl.textContent = 'جارٍ الحفظ...';
+      statusEl.className = 'post-form-status';
+      document.getElementById('pf-save').disabled = true;
+
+      try {
+        await refreshShaAndData(); // make sure we have the latest sha before writing
+
+        let imageUrl = pendingImageUrl;
+        if (pendingImageFile) {
+          statusEl.textContent = 'جارٍ رفع الصورة...';
+          imageUrl = await uploadImage(pendingImageFile);
+        }
+
+        const postObj = {
+          date,
+          title_ar: titleAr, title_en: titleEn || titleAr,
+          excerpt_ar: excerptAr, excerpt_en: excerptEn || excerptAr,
+          content_ar: contentAr, content_en: contentEn || contentAr,
+          image: imageUrl || null
+        };
+
+        if (editingPostId) {
+          const idx = siteData.posts.findIndex(p => p.id === editingPostId);
+          if (idx > -1) siteData.posts[idx] = { ...siteData.posts[idx], ...postObj };
+        } else {
+          postObj.id = 'post-' + Date.now();
+          siteData.posts.unshift(postObj);
+        }
+
+        await saveSiteData(editingPostId ? 'تعديل تدوينة من الموقع' : 'إضافة تدوينة من الموقع');
+
+        statusEl.textContent = '✅ تم الحفظ بنجاح.';
+        statusEl.className = 'post-form-status success';
+        renderDynamicContent(currentLang);
+        setTimeout(() => { postFormOverlay.classList.remove('open'); }, 700);
+      } catch (err) {
+        statusEl.textContent = '⚠️ خطأ: ' + err.message;
+        statusEl.className = 'post-form-status error';
+      } finally {
+        document.getElementById('pf-save').disabled = false;
+      }
+    });
+
+    async function deletePost(id) {
+      if (!confirm('متأكد بغيتي تحيد هاد التدوينة؟')) return;
+      try {
+        await refreshShaAndData();
+        siteData.posts = siteData.posts.filter(p => p.id !== id);
+        await saveSiteData('حذف تدوينة من الموقع');
+        renderDynamicContent(currentLang);
+      } catch (err) {
+        alert('⚠️ خطأ فالحذف: ' + err.message);
+      }
+    }
 
     // ─── Hamburger menu (mobile) ───
     const navToggle = document.getElementById('navToggle');
